@@ -1,5 +1,5 @@
-# GROUP PROJECT #2: New Clear REACTive App
-### Due: October 9th, 2017, 11.59PM CDT
+# GROUP PROJECT #Frontend 
+### Due: Dec 12th, 2017, 11.59PM CDT
 
 ## Table of Contents
 1. [Assignment](#assignment)
