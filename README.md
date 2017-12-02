@@ -1,6 +1,11 @@
+<<<<<<< HEAD
 # GROUP PROJECT #2: New Clear REACTive App
 ### Due: October 9th, 2017, 11.59PM CDT
 test
+=======
+# GROUP PROJECT #Frontend 
+### Due: Dec 12th, 2017, 11.59PM CDT
+>>>>>>> 48918dbae3fc584b7f2267bbe0e672c94c7cf79c
 
 ## Table of Contents
 1. [Assignment](#assignment)
