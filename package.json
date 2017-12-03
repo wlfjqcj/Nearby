@@ -29,7 +29,10 @@
   "dependencies": {
     "axios": "^0.16.2",
     "google-map-react": "^0.25.0",
+    "menu": "^0.2.5",
     "normalize.css": "^6.0.0",
+    "rc": "^1.2.2",
+    "rc-menu": "^6.2.3",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
     "react-router": "^4.0.0",
