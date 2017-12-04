@@ -36,9 +36,24 @@ class SimpleMap extends Component {
   //   );
   // }
 
+
+  componentWillMount() {
+      if (navigator.geolocation) {
+        console.log(navigator.geolocation.getCurrentPosition(function(pos) {
+            var crd = pos.coords;
+
+  console.log('Your current position is:');
+  console.log(`Latitude : ${crd.latitude}`);
+  console.log(`Longitude: ${crd.longitude}`);
+
+        }))
+    } else {
+        console.log("Geolocation is not supported by this browser.")
+    }
+  }
   static get defaultProps() {
      return {
-         center: {lat: 11, lng: 22},
+         center: {lat: 40, lng: -88},
          zoom: 8
      }
    }
@@ -54,8 +69,8 @@ class SimpleMap extends Component {
           defaultZoom={this.props.zoom}
         >
           <AnyReactComponent
-            lat={11}
-            lng={22}
+            lat={40}
+            lng={-88}
             text={'Kreyser Avrora'}
           />
         </GoogleMapReact>
