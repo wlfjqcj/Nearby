@@ -9,33 +9,32 @@ import GoogleMap from 'google-map-react';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 
+import Submenu from './Submenu.js';
 import styles from './Map.scss';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
-  onClick(info) {
-   console.log('click ', info);
- }
+  
 
-  getMenu() {
-    return (
-      <Menu
-        onClick={this.onClick}
-        mode="inline"
-      >
-
-        <SubMenu key="1" title="Menu">
-          <MenuItem key="1-1">LogIn</MenuItem>
-          <MenuItem key="1-2">Register</MenuItem>
-          <MenuItem key="1-3">New Chat</MenuItem>
-          <MenuItem key="1-4">New Event</MenuItem>
-          <MenuItem key="1-5">New Helper</MenuItem>
-        </SubMenu>
-
-      </Menu>
-    );
-  }
+  // getMenu() {
+  //   return (
+  //     <Menu
+  //       onClick={this.onClick}
+  //       mode="inline"
+  //     >
+  //
+  //       <SubMenu key="1" title="Menu">
+  //         <MenuItem key="1-1">LogIn</MenuItem>
+  //         <MenuItem key="1-2">Register</MenuItem>
+  //         <MenuItem key="1-3">New Chat</MenuItem>
+  //         <MenuItem key="1-4">New Event</MenuItem>
+  //         <MenuItem key="1-5">New Helper</MenuItem>
+  //       </SubMenu>
+  //
+  //     </Menu>
+  //   );
+  // }
 
   static get defaultProps() {
      return {
@@ -48,7 +47,7 @@ class SimpleMap extends Component {
     return (
     <div className = 'wrapper'>
 
-
+     //GoogleMap
       <div style = {{ height: '100px' , width : '100px'}}>
         <GoogleMapReact style = {{ height: '100px' , width : '100px'}}
           defaultCenter={this.props.center}
@@ -61,8 +60,13 @@ class SimpleMap extends Component {
           />
         </GoogleMapReact>
       </div>
+      //menu
+      <div className = 'submenu'>
+        <Submenu />
 
-      <div className = 'submenu'>{this.getMenu()}</div>
+
+
+      </div>
     </div>
 
 
