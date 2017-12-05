@@ -9,7 +9,8 @@ import GoogleMap from 'google-map-react';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 import ReactModal from 'react-modal';
-
+import { Icon } from 'semantic-ui-react'
+import { Input } from 'semantic-ui-react'
 import NewChat from './NewChat.js';
 
 class Submenu extends Component {
@@ -20,15 +21,17 @@ class Submenu extends Component {
       showChat: false,
       showEvent: false,
       showHelper: false,
+      location:[0, 0]
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
 
     this.buildEvent = this.buildEvent.bind(this);
     this.closeEvent = this.closeEvent.bind(this);
-
+    this.locate = this.locate.bind(this);
     this.buildHelper = this.buildHelper.bind(this);
     this.closeHelper = this.closeHelper.bind(this);
+    this.selectHelper = this.selectHelper.bind(this);
 
   }
   // onClick(info) {
@@ -63,9 +66,33 @@ class Submenu extends Component {
     closeHelper() {
       this.setState({ showHelper: false });
     }
+    selectHelper() {
+        this.setState({ showHelper: false });
+        
+    }
 
 
+  locate(){
+if (navigator.geolocation) {
+    var x;
+    var y;
+    navigator.geolocation.getCurrentPosition(pos =>  {
+        var crd = pos.coords;
+        x = crd.latitude;
+        y = crd.longitude;
+        this.setState({
+            location:[x,y]
+        })
+    })
 
+}
+else {
+    this.setState(
+        {location:[0,0]}
+    )
+}
+
+  }
 
   getMenu() {
     return (
@@ -93,7 +120,7 @@ class Submenu extends Component {
            isOpen={this.state.showChat}
            contentLabel="Minimal Modal Example"
            >
-             <button onClick={this.closeChat}>Close Modal</button>
+             <Button onClick={this.closeChat}>Close Modal</Button>
            </ReactModal>
            : null
        }
@@ -103,7 +130,7 @@ class Submenu extends Component {
             isOpen={this.state.showEvent}
             contentLabel="Minimal Modal Example"
             >
-              <button onClick={this.closeEvent}>Close Modal</button>
+              <Button onClick={this.closeEvent}>Close Modal</Button>
             </ReactModal>
             : null
         }
@@ -113,7 +140,10 @@ class Submenu extends Component {
              isOpen={this.state.showHelper}
              contentLabel="Minimal Modal Example"
              >
-               <button onClick={this.closeHelper}>Close Modal</button>
+               <Input type="text" placeholder={this.state.location} />
+               <Icon loading name='marker' onClick = {this.locate}/>
+               <Button onClick={this.selectHelper}>Select Location</Button>
+               <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
              : null
          }
@@ -122,5 +152,7 @@ class Submenu extends Component {
   );
   }
 }
+
+
 
 export default Submenu;

@@ -11,11 +11,18 @@ import createReactClass from 'create-react-class';
 
 import Submenu from './Submenu.js';
 import styles from './Map.scss';
+//Coordinate convert utils
+import {
+  vecAdd, vecMul, distance, tile2LatLng, latLng2Scaled, getTilesIds, getTileBounds,
+} from './utils';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
 class SimpleMap extends Component {
-  
+    constructor() {
+        super();
+        this.handleClick = this.handleClick.bind(this);
+    }
 
   // getMenu() {
   //   return (
@@ -58,13 +65,29 @@ class SimpleMap extends Component {
      }
    }
 
+  handleClick(e){
+     console.log(e.event.clientY)
+     let boundingRect_;
+     boundingRect_ = boundingRect_ || e.event.currentTarget.getBoundingClientRect();
+     console.log(boundingRect_)
+     const mousePos = {
+          x: e.event.clientX - boundingRect_.left,
+          y: e.event.clientY - boundingRect_.top,
+        };
+    zoom = this.props.zoom
+    const ptNW = latLng2Scaled(bounds.nw, zoom);
+    const mpt = vecAdd(ptNW, vecMul(mousePos, 1 / TILE_SIZE));
+    const mptLatLng = tile2LatLng(mpt, zoom);
+
+  }
+
   render() {
     return (
     <div className = 'wrapper'>
 
      //GoogleMap
       <div style = {{ height: '100px' , width : '100px'}}>
-        <GoogleMapReact style = {{ height: '100px' , width : '100px'}}
+        <GoogleMapReact style = {{ height: '100px' , width : '100px'}} onClick={(e)=>this.handleClick(e)}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
