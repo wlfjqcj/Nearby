@@ -12,6 +12,8 @@ import ReactModal from 'react-modal';
 
 import NewChat from './NewChat.js';
 
+import styles from './Submenu.css';
+
 class Submenu extends Component {
   constructor () {
     super();
@@ -84,7 +86,7 @@ class Submenu extends Component {
   render() {
     return (
     <div>
-      <div style={{ width: 400 }}>{this.getMenu()}</div>
+      <div className = 'dropmenu' >{this.getMenu()}</div>
 
       <div className = 'buildItem' >
       {
