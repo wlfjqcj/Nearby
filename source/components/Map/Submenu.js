@@ -45,6 +45,12 @@ class Submenu extends Component {
       showChat: true
     })
   }
+
+
+
+
+
+
   closeChat () {
     this.setState({ showChat: false });
   }
@@ -62,18 +68,26 @@ class Submenu extends Component {
   buildHelper() {
       this.setState({
         build: '3',
-        showHelper: true
+        showHelper: true,
+        location:[0,0]
       })
+
     }
     closeHelper() {
       this.setState({ showHelper: false });
+      this.props.transferMsg((obj) => {})
     }
     selectHelper() {
         this.setState({ showHelper: false });
-        
+        this.props.transferMsg((obj) =>
+        {
+            this.setState(
+                {location:[obj.lat,obj.lng]}
+            )
+            this.setState({ showHelper: true });
+        })
+
     }
-
-
   locate(){
 if (navigator.geolocation) {
     var x;

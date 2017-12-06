@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-map-react';
-
+import ReactModal from 'react-modal';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 
@@ -17,11 +17,24 @@ import {
 } from './utils';
 
 const AnyReactComponent = ({ text }) => <div>{text}</div>;
-
+const TILE_SIZE = 256;
 class SimpleMap extends Component {
     constructor() {
         super();
         this.handleClick = this.handleClick.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.changeonclick = this.changeonclick.bind(this);
+        this.state = {
+            zoommap:0,
+            boundsmap:[],
+            msg: "start",
+            clickfunc: function(obj){
+
+                console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);
+            },
+            visible: false
+
+        }
     }
 
   // getMenu() {
@@ -42,17 +55,18 @@ class SimpleMap extends Component {
   //     </Menu>
   //   );
   // }
+  changeonclick(func) {
+      this.setState({
+          clickfunc:func
+      })
+
+  }
 
 
   componentWillMount() {
       if (navigator.geolocation) {
         console.log(navigator.geolocation.getCurrentPosition(function(pos) {
             var crd = pos.coords;
-
-  console.log('Your current position is:');
-  console.log(`Latitude : ${crd.latitude}`);
-  console.log(`Longitude: ${crd.longitude}`);
-
         }))
     } else {
         console.log("Geolocation is not supported by this browser.")
@@ -60,10 +74,18 @@ class SimpleMap extends Component {
   }
   static get defaultProps() {
      return {
-         center: {lat: 40, lng: -88},
-         zoom: 8
+         center: {lat: 40.11683643859134, lng: -88.24157047271729},
+         zoom: 15
      }
    }
+
+  handleChange(e) {
+      this.setState({
+          zoommap:e.zoom,
+          boundsmap:e.bounds
+      })
+
+  }
 
   handleClick(e){
      console.log(e.event.clientY)
@@ -74,12 +96,21 @@ class SimpleMap extends Component {
           x: e.event.clientX - boundingRect_.left,
           y: e.event.clientY - boundingRect_.top,
         };
-    zoom = this.props.zoom
+    var zoom = this.state.zoommap
+    var bounds = this.state.boundsmap
     const ptNW = latLng2Scaled(bounds.nw, zoom);
     const mpt = vecAdd(ptNW, vecMul(mousePos, 1 / TILE_SIZE));
     const mptLatLng = tile2LatLng(mpt, zoom);
+    this.setState(
+        {
+            visible:!this.state.visible
+        }
+    )
 
   }
+
+
+
 
   render() {
     return (
@@ -87,20 +118,28 @@ class SimpleMap extends Component {
 
      //GoogleMap
       <div style = {{ height: '100px' , width : '100px'}}>
-        <GoogleMapReact style = {{ height: '100px' , width : '100px'}} onClick={(e)=>this.handleClick(e)}
+        <GoogleMapReact style = {{ height: '100px' , width : '100px'}} onClick={this.state.clickfunc} onChange={(e)=>this.handleChange(e)}
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-          <AnyReactComponent
-            lat={40}
-            lng={-88}
-            text={'Kreyser Avrora'}
-          />
+            {   this.state.visible ? (
+                <AnyReactComponent
+                  lat={40}
+                  lng={-88}
+                  text={'Kreyser Avrora'}
+              />):(
+                  <AnyReactComponent
+                    lat={40}
+                    lng={-88}
+                    text={'Ture'}
+                />
+              )
+            }
         </GoogleMapReact>
       </div>
       //menu
       <div className = 'submenu'>
-        <Submenu />
+        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible}/>
 
 
 
@@ -112,6 +151,8 @@ class SimpleMap extends Component {
     );
   }
 }
+
+
 
 
 export default SimpleMap
