@@ -17,12 +17,12 @@ class Home extends Component {
                   Map
               </Button>
           </Link>
-          <Link to="/NewChat">
+          <Link to="/new_chat">
                 <Button>
                     NewChat
                 </Button>
           </Link>
-          <Link to="/ReplyChat">
+          <Link to="/reply_chat">
                 <Button>
                     Reply
                 </Button>

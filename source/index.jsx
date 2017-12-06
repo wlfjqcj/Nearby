@@ -20,7 +20,7 @@ render(
      <Route exact path = "/" component = {Home}/>
      <Route exact path = "/map" component = {SimpleMap}/>
      <Route exact path = "/new_chat" component = {NewChat} />
-    <Route path = "/reply_chat" component = {ReplyChat} />
+    <Route exact path = "/reply_chat" component = {ReplyChat} />
   </div>
 </Router>,
 document.getElementById('app')

@@ -9,6 +9,7 @@ import ReactModal from 'react-modal';
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 
+import ReplyChat from '../Reply/ReplyChat.js';
 import Submenu from './Submenu.js';
 import styles from './Map.scss';
 //Coordinate convert utils
@@ -32,7 +33,8 @@ class SimpleMap extends Component {
 
                 console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);
             },
-            visible: false
+            visible: false,
+            text: "wait for response"
 
         }
     }
@@ -113,6 +115,7 @@ class SimpleMap extends Component {
 
 
   render() {
+    const tt = this.state.text;
     return (
     <div className = 'wrapper'>
 
@@ -140,10 +143,8 @@ class SimpleMap extends Component {
       //menu
       <div className = 'submenu'>
         <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible}/>
-
-
-
       </div>
+        <ReplyChat chatText = {tt} />
     </div>
 
 
