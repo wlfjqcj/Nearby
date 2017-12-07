@@ -17,7 +17,7 @@ import {
   vecAdd, vecMul, distance, tile2LatLng, latLng2Scaled, getTilesIds, getTileBounds,
 } from './utils';
 
-const AnyReactComponent = ({ text }) => <div>{text}</div>;
+const AnyReactComponent = ({ text }) => <div><Button></Button></div>;
 const TILE_SIZE = 256;
 class SimpleMap extends Component {
     constructor() {
@@ -34,7 +34,8 @@ class SimpleMap extends Component {
                 console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);
             },
             visible: false,
-            text: "wait for response"
+            text: "wait for response",
+            textlocation: [[40.01,-88.0001],[40.0022,-88.0022],[40.03,-88.0301]]
 
         }
     }
@@ -125,26 +126,20 @@ class SimpleMap extends Component {
           defaultCenter={this.props.center}
           defaultZoom={this.props.zoom}
         >
-            {   this.state.visible ? (
-                <AnyReactComponent
-                  lat={40}
-                  lng={-88}
-                  text={'Kreyser Avrora'}
-              />):(
-                  <AnyReactComponent
-                    lat={40}
-                    lng={-88}
-                    text={'Ture'}
-                />
-              )
+            {
+                this.state.textlocation.map(function(v, index){
+                        return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+                      })
+
             }
+
         </GoogleMapReact>
       </div>
       //menu
       <div className = 'submenu'>
         <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible}/>
       </div>
-        <ReplyChat chatText = {tt} />
+
     </div>
 
 
