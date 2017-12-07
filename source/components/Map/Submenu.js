@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-map-react';
-
+import * as FontAwesome from 'react-icons/lib/fa'
 import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 import ReactModal from 'react-modal';
@@ -34,6 +34,7 @@ class Submenu extends Component {
     this.buildHelper = this.buildHelper.bind(this);
     this.closeHelper = this.closeHelper.bind(this);
     this.selectHelper = this.selectHelper.bind(this);
+    this.selectEvent = this.selectEvent.bind(this);
 
   }
   // onClick(info) {
@@ -63,7 +64,20 @@ class Submenu extends Component {
       })
     }
     closeEvent () {
-      this.setState({ showEvent: false });
+
+              this.setState({ showEvent: false });
+              this.props.transferMsg((obj) => {})
+              this.props.addstate(this.state.location)
+    }
+    selectEvent() {
+        this.setState({ showEvent: false });
+        this.props.transferMsg((obj) =>
+        {
+            this.setState(
+                {location:[obj.lat,obj.lng]}
+            )
+            this.setState({ showEvent: true });
+        })
     }
 
   buildHelper() {
@@ -149,8 +163,12 @@ else {
            ? <ReactModal
             isOpen={this.state.showEvent}
             contentLabel="Minimal Modal Example"
-            >
-              <Button onClick={this.closeEvent}>Close Modal</Button>
+            style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} >
+                <Input type="text" placeholder={this.state.location} />
+                <FontAwesome.FaMapMarker onClick = {this.locate} />
+                <Input placeholder="please select date"/>
+                <Button onClick={this.selectEvent}>Select Location</Button>
+                <Button onClick={this.closeEvent}>Close Modal</Button>
             </ReactModal>
             : null
         }
@@ -161,7 +179,8 @@ else {
              contentLabel="Minimal Modal Example"
              >
                <Input type="text" placeholder={this.state.location} />
-               <Icon loading name='marker' onClick = {this.locate}/>
+               <FontAwesome.FaMapMarker onClick = {this.locate} />
+               <Input placeholder="please select date"/>
                <Button onClick={this.selectHelper}>Select Location</Button>
                <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
