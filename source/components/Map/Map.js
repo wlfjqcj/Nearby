@@ -25,6 +25,7 @@ class SimpleMap extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.changeonclick = this.changeonclick.bind(this);
+        this.additem = this.additem.bind(this);
         this.state = {
             zoommap:0,
             boundsmap:[],
@@ -65,6 +66,17 @@ class SimpleMap extends Component {
 
   }
 
+
+  additem(item) {
+      console.log(item)
+      var messageloc = this.state.textlocation
+      messageloc.push(item)
+      console.log(messageloc)
+      this.setState({
+          textlocation:messageloc
+      })
+
+  }
 
   componentWillMount() {
       if (navigator.geolocation) {
@@ -137,7 +149,7 @@ class SimpleMap extends Component {
       </div>
       //menu
       <div className = 'submenu'>
-        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible}/>
+        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} addstate = {item => this.additem(item)}/>
       </div>
 
     </div>

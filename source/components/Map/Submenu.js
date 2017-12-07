@@ -52,6 +52,7 @@ class Submenu extends Component {
 
 
   closeChat () {
+
     this.setState({ showChat: false });
   }
 
@@ -74,8 +75,11 @@ class Submenu extends Component {
 
     }
     closeHelper() {
+
+
       this.setState({ showHelper: false });
       this.props.transferMsg((obj) => {})
+      this.props.addstate(this.state.location)
     }
     selectHelper() {
         this.setState({ showHelper: false });
