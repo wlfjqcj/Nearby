@@ -1,16 +1,15 @@
 .dropmenu{
 
-
 }
 
 .ui.button{
 
 	background-color:white;
-	opacity: 0.9;
+
     display: block;
     width: 100%;
     text-align: left;
-    text-decoration-color: black;
+    text-decoration-color: white;
 
 	}
 .ui.button:hover {

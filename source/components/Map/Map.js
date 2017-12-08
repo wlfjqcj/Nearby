@@ -1,12 +1,11 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button } from 'semantic-ui-react'
+import { Button, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-map-react';
 import ReactModal from 'react-modal';
-import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 
 import ReplyChat from '../Reply/ReplyChat.js';

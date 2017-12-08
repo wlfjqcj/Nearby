@@ -1,12 +1,12 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button } from 'semantic-ui-react'
+import { Button, Menu,Dropdown, Icon as Tubiao } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-map-react';
 import * as FontAwesome from 'react-icons/lib/fa'
-import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
+//import Menu, { SubMenu, Item as MenuItem } from 'rc-menu';
 import createReactClass from 'create-react-class';
 import ReactModal from 'react-modal';
 import { Icon } from 'semantic-ui-react'
@@ -130,15 +130,39 @@ else {
 
   getMenu() {
     return (
-      <Menu
-        mode="inline"
-      >
-       <SubMenu key="1" title="Menu">
-        <MenuItem ><Button onClick = {this.buildChat}>New Chat</Button></MenuItem>
-        <MenuItem ><Button onClick = {this.buildEvent}>New Event</Button></MenuItem>
-        <MenuItem ><Button onClick = {this.buildHelper}>New Helper</Button></MenuItem>
-       </SubMenu>
-     </Menu>
+  <Menu vertical>
+   <Dropdown item text='Menu'>
+     <Dropdown.Menu>
+       <Dropdown.Item><Button onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
+     </Dropdown.Menu>
+   </Dropdown>
+ </Menu>
+//       <div class="ui floating labeled icon dropdown button">
+//   <i class="dropdown icon"></i>
+//   <span class="text">Menu</span>
+//   <div class="menu">
+//     <div class="item">
+//       <i class="left dropdown icon"></i>
+//       <span class="text">Add New</span>
+//       <div class="left menu">
+//         <div class="item"><Button onClick = {this.buildChat}>New Chat</Button></div>
+//         <div class="item"><Button onClick = {this.buildEvent}>New Event</Button></div>
+//         <div class="item"><Button onClick = {this.buildHelper}>New Helper</Button></div>
+//       </div>
+//     </div>
+//     <div class="item">
+//       <i class="dropdown icon"></i>
+//       <span class="text">Right</span>
+//       <div class="right menu">
+//         <div class="item">1</div>
+//         <div class="item">2</div>
+//         <div class="item">3</div>
+//       </div>
+//     </div>
+//   </div>
+// </div>
     );
   }
 
