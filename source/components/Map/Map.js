@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button, Menu } from 'semantic-ui-react'
+import { Button, Menu, Popup} from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
@@ -139,7 +139,15 @@ class SimpleMap extends Component {
         >
             {
                 this.state.textlocation.map(function(v, index){
-                        return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+                        // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+                        return (
+                            // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
+                            //     <div class="hint__content">
+                            //         <p>hahahah</p>
+                            //     </div>
+                            //     </div>
+                            <PopupExampleMultiple lat = {v[0]} lng = {v[1]} key = {index}/>
+                        )
                       })
 
             }
@@ -158,8 +166,38 @@ class SimpleMap extends Component {
     );
   }
 }
+class PopupExampleMultiple extends Component {
+constructor(){
+    super();
+    this.state = {
+        visible:false
+    }
+    this.visiblechange = this.visiblechange.bind(this);
+}
+visiblechange(){
+    var status = this.state.visible;
+    status = !status
+    this.setState({
+        visible:status
+    })
 
+}
+render()
 
+{
+return (
+  <Popup
+    trigger={<Button icon style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick = {this.visiblechange}>Click me or Hover me</Button>}
+    header='Movie Search'
+    on={['hover','focus']}
+    hoverable
 
+  >
+     <Popup.Content>
+      {this.state.visible?(<p>short</p>):(<p>long</p>)}
+    </Popup.Content>
+  </Popup>
+)}
+}
 
 export default SimpleMap
