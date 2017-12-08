@@ -12,7 +12,7 @@ import ReactModal from 'react-modal';
 import { Icon } from 'semantic-ui-react'
 import { Input } from 'semantic-ui-react'
 import NewChat from './NewChat.js';
-
+import DatePicker from 'react-date-picker';
 import styles from './Submenu.css';
 
 class Submenu extends Component {
@@ -23,7 +23,8 @@ class Submenu extends Component {
       showChat: false,
       showEvent: false,
       showHelper: false,
-      location:[0, 0]
+      location:[0, 0],
+      date: new Date()
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -35,7 +36,7 @@ class Submenu extends Component {
     this.closeHelper = this.closeHelper.bind(this);
     this.selectHelper = this.selectHelper.bind(this);
     this.selectEvent = this.selectEvent.bind(this);
-
+    this.ondateChange= this.ondateChange.bind(this);
   }
   // onClick(info) {
   //   console.log('click ', info);
@@ -49,7 +50,7 @@ class Submenu extends Component {
 
 
 
-
+  ondateChange(date){this.setState({ date })}
 
 
   closeChat () {
@@ -205,6 +206,7 @@ else {
                <Input type="text" placeholder={this.state.location} />
                <FontAwesome.FaMapMarker onClick = {this.locate} />
                <Input placeholder="please select date"/>
+               <DatePicker onChange={this.ondateChange} value={this.state.date}/>
                <Button onClick={this.selectHelper}>Select Location</Button>
                <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
