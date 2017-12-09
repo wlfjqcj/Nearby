@@ -18,6 +18,7 @@ import {
   vecAdd, vecMul, distance, tile2LatLng, latLng2Scaled, getTilesIds, getTileBounds,
 } from './utils';
 axios.defaults.withCredentials = true;
+const url = 'http://fengshuang.org:3000/api/post/all'
 const AnyReactComponent = ({ text }) => <div><Button></Button></div>;
 const TILE_SIZE = 256;
 class SimpleMap extends Component {
@@ -31,15 +32,14 @@ class SimpleMap extends Component {
             zoommap:0,
             boundsmap:[],
             msg: "start",
+            secondsElapsed:0,
             clickfunc: function(obj){
 
                 console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);
             },
             visible: false,
             text: "wait for response",
-            textlocation: [[40.01,-88.0001],[40.0022,-88.0022],[40.03,-88.0301]],
-            chatobjects: [],
-            center:[]
+            chatobjects:[]
 
 
         }
@@ -72,7 +72,6 @@ class SimpleMap extends Component {
 
 
   additem(item) {
-      console.log(item)
       var messageloc = this.state.textlocation
       messageloc.push(item)
       console.log(messageloc)
@@ -83,23 +82,60 @@ class SimpleMap extends Component {
   }
 
   componentWillMount() {
+      clearInterval(this.interval);
      var chatobj = []
-     axios.get('http://fengshuang.org:3000/api/post/all')
-
-    .then(function (response) {
-      response.map(function(obj){
-          //only need to update according time
-          console.log(obj)
-  		chatobj.push(obj)
+     axios.get( url, {withCredentials:true})
+    .then((response) => {
+      response.data.data.map((obj) => {
+          if (obj.type == 'chat')
+  		chatobj.push({
+            chatid:obj._id,
+            location:[obj.latitude, obj.longitude],
+        })
   	})
+    this.setState({
+        chatobjects:chatobj
+    })
     })
     .catch(function (error) {
       console.log(error);
     });
 
-    this.setState({
-        chatobjects:chatobj
-    })
+  }
+  tick() {
+      var chatobj = []
+      axios.get( url, {withCredentials:true})
+     .then((response) => {
+       response.data.data.map((obj) => {
+           if (obj.type == 'chat')
+   		chatobj.push({
+             chatid:obj._id,
+             location:[obj.latitude, obj.longitude],
+         })
+   	})
+     this.setState({
+         chatobjects:chatobj
+     })
+     })
+     .catch(function (error) {
+       console.log(error);
+     });
+
+      this.setState((prevState) => ({
+        secondsElapsed: prevState.secondsElapsed + 1,
+
+
+      }));
+    }
+
+
+
+
+
+
+  static get defaultProps() {
+
+
       if (navigator.geolocation) {
         console.log(navigator.geolocation.getCurrentPosition(function(pos) {
             var crd = pos.coords;
@@ -107,8 +143,7 @@ class SimpleMap extends Component {
     } else {
         console.log("Geolocation is not supported by this browser.")
     }
-  }
-  static get defaultProps() {
+
      return {
          center: {lat: 40.11683643859134, lng: -88.24157047271729},
          zoom: 15
@@ -146,7 +181,9 @@ class SimpleMap extends Component {
   }
 
 
-
+  componentDidMount() {
+      this.interval = setInterval(() => this.tick(), 1000);
+   }
 
   render() {
     const tt = this.state.text;
@@ -160,7 +197,7 @@ class SimpleMap extends Component {
           defaultZoom={this.props.zoom}
         >
             {
-                this.state.textlocation.map(function(v, index){
+                this.state.chatobjects.map(function(v, index){
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
@@ -168,7 +205,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v[0]} lng = {v[1]} key = {index} idnumber = {v._id}/>
+                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid}/>
                         )
                       })
 
@@ -220,7 +257,7 @@ return (
      <Popup.Content>
 
       <p style={{display: this.state.visible ? 'none' : 'block' }}>short</p>
-      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat /></div>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} /></div>
     </Popup.Content>
   </Popup>
 )}

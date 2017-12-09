@@ -7,7 +7,7 @@ import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
 import styles from './ReplyChat.scss';
 axios.defaults.withCredentials = true;
-
+const url = 'http://fengshuang.org:3000/api/post/id/'
 class ReplyChat extends Component {
 //   constructor(props) {
 //     super(props);
@@ -156,7 +156,8 @@ constructor() {
 	componentWillUnmount() {
        clearInterval(this.interval);
 	   var message = []
-	   axios.get('http://fengshuang.org:3000/api/post/id/5a2b10629dce8840d15059b0', {withCredentials:true})
+
+	   axios.get(url + this.props.chatid, {withCredentials:true})
 
 		.then((response) =>  {
 		var message = []
@@ -175,7 +176,7 @@ constructor() {
 
   tick() {
 	  var message = []
-	axios.get('http://fengshuang.org:3000/api/post/id/5a2b10629dce8840d15059b0', {withCredentials:true})
+	axios.get(url + this.props.chatid, {withCredentials:true})
 
   .then((response) =>  {
 	 var message = []
