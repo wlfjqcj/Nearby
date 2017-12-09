@@ -188,13 +188,12 @@ render()
 return (
   <Popup
     trigger={<Button icon style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick = {this.visiblechange}>Click me or Hover me</Button>}
-    header='Movie Search'
     on={['hover','focus']}
     hoverable
 
   >
      <Popup.Content>
-      {this.state.visible?(<p>short</p>):(<p>long</p>)}
+      {this.state.visible?(<div><p>short</p><Button>Confirm</Button><input placeholder = "please"></input></div>):(<p>long</p>)}
     </Popup.Content>
   </Popup>
 )}

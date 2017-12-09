@@ -27,6 +27,11 @@ class Home extends Component {
                     Reply
                 </Button>
           </Link>
+          <Link to="/login">
+                <Button>
+                    Loginfirst
+                </Button>
+          </Link>
     </div>
 
         )
