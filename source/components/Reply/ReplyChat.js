@@ -140,9 +140,6 @@ constructor() {
 				onClick={this.handleClick}
 				data-item={listitem.id}
 				style={{
-					// backgroundColor: this.state.currentcolor[
-					// 	index % this.state.currentcolor.length
-					// ],
 					width: listitem.itemWidth
 				}}
 			>
