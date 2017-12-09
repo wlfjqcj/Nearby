@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button, Menu, Popup} from 'semantic-ui-react'
+import { Button, Menu, Popup} from 'semantic-ui-react';
+import { Segment } from 'semantic-ui-react';
+import { Comment, Form, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
@@ -36,6 +38,7 @@ class SimpleMap extends Component {
             visible: false,
             text: "wait for response",
             textlocation: [[40.01,-88.0001],[40.0022,-88.0022],[40.03,-88.0301]]
+
 
         }
     }
@@ -170,9 +173,10 @@ class PopupExampleMultiple extends Component {
 constructor(){
     super();
     this.state = {
-        visible:false
+        visible:false,
     }
     this.visiblechange = this.visiblechange.bind(this);
+
 }
 visiblechange(){
     var status = this.state.visible;
@@ -182,9 +186,11 @@ visiblechange(){
     })
 
 }
-render()
 
+
+render()
 {
+  const ct = "wait for respond";
 return (
   <Popup
     trigger={<Button icon style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick = {this.visiblechange}>Click me or Hover me</Button>}
@@ -194,7 +200,12 @@ return (
 
   >
      <Popup.Content>
-      {this.state.visible?(<p>short</p>):(<p>long</p>)}
+      {this.state.visible?(<p>short</p>):
+        (
+          <div className = 'buildItem'>
+            <ReplyChat />
+          </div>
+        )}
     </Popup.Content>
   </Popup>
 )}
