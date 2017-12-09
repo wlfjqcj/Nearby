@@ -193,7 +193,7 @@ else {
                 <FontAwesome.FaMapMarker onClick = {this.locate} />
                 <Input placeholder="please select date"/>
                 <Button onClick={this.selectEvent}>Select Location</Button>
-                <Button onClick={this.closeEvent}>Close Modal</Button>
+                <Button onClick={() => this.setState({ showHelper: false })}>Close Modal</Button>
             </ReactModal>
             : null
         }
@@ -203,11 +203,13 @@ else {
              isOpen={this.state.showHelper}
              contentLabel="Minimal Modal Example"
              >
+                <div>
                <Input type="text" placeholder={this.state.location} />
-               <FontAwesome.FaMapMarker onClick = {this.locate} />
-               <Input placeholder="please select date"/>
+               <FontAwesome.FaMapMarker onClick = {this.locate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+               <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
+               </div>
                <DatePicker onChange={this.ondateChange} value={this.state.date}/>
-               <Button onClick={this.selectHelper}>Select Location</Button>
+               <Button onClick={this.closeHelper}>Create New Event</Button>
                <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
              : null
