@@ -44,6 +44,7 @@ class Login extends React.Component {
                 this.setState({
                     message: 'Successfully logged in!'
                 })
+                alert('hahah')
                 this.props.history.push("/map");
 
             } else {

@@ -6,7 +6,7 @@ import axios from 'axios'
 import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
 import styles from './ReplyChat.scss';
-
+axios.defaults.withCredentials = true;
 
 class ReplyChat extends Component {
 //   constructor(props) {
@@ -78,6 +78,7 @@ constructor() {
 			content_add: "+ Comment",
 			width: 100,
 			myItems: [],
+			secondsElapsed:0
 		};
 		this.lastId = -1;
 	}
@@ -149,6 +150,60 @@ constructor() {
 		return elements
 
 	}
+	componentDidMount() {
+	    this.interval = setInterval(() => this.tick(), 1000);
+	 }
+	componentWillUnmount() {
+       clearInterval(this.interval);
+	   var message = []
+	   axios.get('http://fengshuang.org:3000/api/post/id/5a2b10629dce8840d15059b0', {withCredentials:true})
+
+		.then((response) =>  {
+		var message = []
+		response.data.data.replies.map((obj) => {
+			message.push(obj.text)
+			this.setState({
+				myItems: message
+			})
+		})
+
+		})
+		.catch(function (error) {
+		  console.log(error);
+		});
+    }
+
+  tick() {
+	  var message = []
+	axios.get('http://fengshuang.org:3000/api/post/id/5a2b10629dce8840d15059b0', {withCredentials:true})
+
+  .then((response) =>  {
+	 var message = []
+	 this.id = -1
+	 var currentWidth = this.helperspan.offsetWidth
+	 response.data.data.replies.map((obj) => {
+		 message.push({
+			 content: obj.text,
+			 id: ++this.lastId,
+			 itemWidth: currentWidth + 2
+		 })
+
+		 this.setState({
+			 myItems: message
+		 })
+	 })
+
+  })
+  .catch(function (error) {
+    console.log(error);
+  });
+	console.log(message)
+      this.setState((prevState) => ({
+        secondsElapsed: prevState.secondsElapsed + 1,
+
+
+      }));
+    }
 
 
 render() {

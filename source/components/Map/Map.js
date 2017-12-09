@@ -17,7 +17,7 @@ import styles from './Map.scss';
 import {
   vecAdd, vecMul, distance, tile2LatLng, latLng2Scaled, getTilesIds, getTileBounds,
 } from './utils';
-
+axios.defaults.withCredentials = true;
 const AnyReactComponent = ({ text }) => <div><Button></Button></div>;
 const TILE_SIZE = 256;
 class SimpleMap extends Component {
@@ -37,7 +37,9 @@ class SimpleMap extends Component {
             },
             visible: false,
             text: "wait for response",
-            textlocation: [[40.01,-88.0001],[40.0022,-88.0022],[40.03,-88.0301]]
+            textlocation: [[40.01,-88.0001],[40.0022,-88.0022],[40.03,-88.0301]],
+            chatobjects: [],
+            center:[]
 
 
         }
@@ -81,6 +83,23 @@ class SimpleMap extends Component {
   }
 
   componentWillMount() {
+     var chatobj = []
+     axios.get('http://fengshuang.org:3000/api/post/all')
+
+    .then(function (response) {
+      response.map(function(obj){
+          //only need to update according time
+          console.log(obj)
+  		chatobj.push(obj)
+  	})
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+    this.setState({
+        chatobjects:chatobj
+    })
       if (navigator.geolocation) {
         console.log(navigator.geolocation.getCurrentPosition(function(pos) {
             var crd = pos.coords;
@@ -149,7 +168,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v[0]} lng = {v[1]} key = {index}/>
+                            <PopupExampleMultiple lat = {v[0]} lng = {v[1]} key = {index} idnumber = {v._id}/>
                         )
                       })
 
@@ -200,7 +219,8 @@ return (
   >
      <Popup.Content>
 
-      {this.state.visible?(<p>short</p>):(<div><ReplyChat /></div>)}
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>short</p>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat /></div>
     </Popup.Content>
   </Popup>
 )}
