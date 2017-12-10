@@ -73,7 +73,7 @@ class Submenu extends Component {
     this.setState({
       build: '1',
       showChat: true,
-      chatlocation:[211.1211,20.11122]
+      chatlocation:[10,20.11122]
     })
   }
 
@@ -86,8 +86,8 @@ class Submenu extends Component {
       axios.post(posturl,{
        text:this.state.chatinputvalue,
        type:'chat',
-       latitude:this.state.chatlocation[0],
-       longitude:this.state.chatlocation[1],
+       latitude:this.props.userlocation[0],
+       longitude:this.props.userlocation[1],
        },{withCredentials:true})
    .then(function (response) {
        console.log(response)

@@ -231,7 +231,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username}/>
+                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter}/>
                         )
                       })
 
@@ -241,7 +241,7 @@ class SimpleMap extends Component {
       </div>
       //menu
       <div className = 'submenu'>
-        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} />
+        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} userlocation = {this.state.mapcenter} />
       </div>
 
 
