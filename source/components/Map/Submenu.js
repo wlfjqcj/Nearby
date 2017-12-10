@@ -14,7 +14,7 @@ import { Input } from 'semantic-ui-react'
 import NewChat from './NewChat.js';
 import DatePicker from 'react-date-picker';
 import styles from './Submenu.css';
-
+const posturl = 'http://fengshuang.org:3000/api/post/'
 class Submenu extends Component {
   constructor () {
     super();
@@ -24,7 +24,8 @@ class Submenu extends Component {
       showEvent: false,
       showHelper: false,
       location:[0, 0],
-      date: new Date()
+      date: new Date(),
+      chatinputvalue:'please enter'
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -37,6 +38,7 @@ class Submenu extends Component {
     this.selectHelper = this.selectHelper.bind(this);
     this.selectEvent = this.selectEvent.bind(this);
     this.ondateChange= this.ondateChange.bind(this);
+    this.updateInputValue = this.updateInputValue.bind(this);
   }
   // onClick(info) {
   //   console.log('click ', info);
@@ -66,9 +68,22 @@ class Submenu extends Component {
     }
     closeEvent () {
 
-              this.setState({ showEvent: false });
+              this.setState({ showHelper: false });
               this.props.transferMsg((obj) => {})
-              this.props.addstate(this.state.location)
+              // this.props.addstate(this.state.location)
+              console.log('hhsh')
+              axios.post(posturl,{
+               text:this.state.chatinputvalue,
+               type:'chat',
+               latitude:this.state.location[0],
+               longitude:this.state.location[1],
+               },{withCredentials:true})
+           .then(function (response) {
+               console.log(response)
+
+           }).catch(function (error) {
+
+           });
     }
     selectEvent() {
         this.setState({ showEvent: false });
@@ -91,10 +106,9 @@ class Submenu extends Component {
     }
     closeHelper() {
 
-
       this.setState({ showHelper: false });
       this.props.transferMsg((obj) => {})
-      this.props.addstate(this.state.location)
+      // this.props.addstate(this.state.location)
     }
     selectHelper() {
         this.setState({ showHelper: false });
@@ -128,6 +142,14 @@ else {
 }
 
   }
+
+updateInputValue(e) {
+    this.setState({
+        chatinputvalue: e.target.value
+    })
+}
+
+
 
   getMenu() {
     return (
@@ -209,7 +231,8 @@ else {
                <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
                </div>
                <DatePicker onChange={this.ondateChange} value={this.state.date}/>
-               <Button onClick={this.closeHelper}>Create New Event</Button>
+               <Input type="text" value={this.state.chatinputvalue} onChange= {(evt) => this.updateInputValue(evt) }/>
+               <Button onClick={this.closeEvent}>Create New Event</Button>
                <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
              : null

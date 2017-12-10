@@ -45,6 +45,8 @@ class Login extends React.Component {
                     message: 'Successfully logged in!'
                 })
                 alert('hahah')
+
+                localStorage.setItem('username', xhr.response.data.username);
                 this.props.history.push("/map");
 
             } else {

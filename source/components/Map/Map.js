@@ -27,7 +27,7 @@ class SimpleMap extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.changeonclick = this.changeonclick.bind(this);
-        this.additem = this.additem.bind(this);
+        // this.additem = this.additem.bind(this);
         this.state = {
             zoommap:0,
             boundsmap:[],
@@ -39,7 +39,8 @@ class SimpleMap extends Component {
             },
             visible: false,
             text: "wait for response",
-            chatobjects:[]
+            chatobjects:[],
+            username:'haha'
 
 
         }
@@ -71,17 +72,20 @@ class SimpleMap extends Component {
   }
 
 
-  additem(item) {
-      var messageloc = this.state.textlocation
-      messageloc.push(item)
-      console.log(messageloc)
-      this.setState({
-          textlocation:messageloc
-      })
-
-  }
+  // additem(item) {
+  //     var messageloc = this.state.textlocation
+  //     messageloc.push(item)
+  //     console.log(messageloc)
+  //     this.setState({
+  //         textlocation:messageloc
+  //     })
+  //
+  // }
 
   componentWillMount() {
+      this.setState({
+          username:localStorage.getItem("username")
+      })
       clearInterval(this.interval);
      var chatobj = []
      axios.get( url, {withCredentials:true})
@@ -197,7 +201,7 @@ class SimpleMap extends Component {
           defaultZoom={this.props.zoom}
         >
             {
-                this.state.chatobjects.map(function(v, index){
+                this.state.chatobjects.map((v, index) => {
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
@@ -205,7 +209,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid}/>
+                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username}/>
                         )
                       })
 
@@ -215,7 +219,7 @@ class SimpleMap extends Component {
       </div>
       //menu
       <div className = 'submenu'>
-        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} addstate = {item => this.additem(item)}/>
+        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} />
       </div>
 
     </div>
@@ -257,7 +261,7 @@ return (
      <Popup.Content>
 
       <p style={{display: this.state.visible ? 'none' : 'block' }}>short</p>
-      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} /></div>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} /></div>
     </Popup.Content>
   </Popup>
 )}

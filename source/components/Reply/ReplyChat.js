@@ -8,6 +8,7 @@ import { Comment, Form, Header } from 'semantic-ui-react'
 import styles from './ReplyChat.scss';
 axios.defaults.withCredentials = true;
 const url = 'http://fengshuang.org:3000/api/post/id/'
+const posturl = 'http://fengshuang.org:3000/api/post/reply/'
 class ReplyChat extends Component {
 //   constructor(props) {
 //     super(props);
@@ -111,6 +112,16 @@ constructor() {
 				myItems: newArray,
 				content_add: "",
 			});
+			axios.post(posturl  +  this.props.chatid, {
+    			text:currentcontent
+  			},{withCredentials:true})
+			.then(function (response) {
+
+  		})
+  .catch(function (error) {
+
+  });
+
 		}
 	}
 
