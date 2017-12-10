@@ -10,11 +10,14 @@ import * as FontAwesome from 'react-icons/lib/fa'
 import createReactClass from 'create-react-class';
 import ReactModal from 'react-modal';
 import { Icon } from 'semantic-ui-react'
+import { withRouter, browserHistory} from 'react-router'
 import { Input } from 'semantic-ui-react'
 import NewChat from './NewChat.js';
 import DatePicker from 'react-date-picker';
 import styles from './Submenu.css';
+axios.defaults.withCredentials = true;
 const posturl = 'http://fengshuang.org:3000/api/post/'
+const logouturl = 'http://fengshuang.org:3000/api/logout/'
 class Submenu extends Component {
   constructor () {
     super();
@@ -54,6 +57,8 @@ class Submenu extends Component {
     this.selectHelper = this.selectHelper.bind(this);
     this.onHelperdateChange= this.onHelperdateChange.bind(this);
     this.updateHelperInputValue = this.updateHelperInputValue.bind(this);
+
+    this.logout = this.logout.bind(this);
   }
   // onClick(info) {
   //   console.log('click ', info);
@@ -241,6 +246,20 @@ updateHelperInputValue(e) {
 
 
 
+
+
+//log out loginprocess
+logout() {
+    axios.get(logouturl,{withCredentials:true})
+ .then( (response) => {
+     console.log(response)
+     this.props.logoutprocess('hah');
+
+ }).catch(function (error) {
+
+ });
+}
+
   getMenu() {
     return (
   <Menu vertical>
@@ -249,6 +268,7 @@ updateHelperInputValue(e) {
        <Dropdown.Item><Button onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
        <Dropdown.Item><Button onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
        <Dropdown.Item><Button onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.logout}>Logout</Button></Dropdown.Item>
      </Dropdown.Menu>
    </Dropdown>
  </Menu>
@@ -339,4 +359,4 @@ updateHelperInputValue(e) {
 
 
 
-export default Submenu;
+export default withRouter(Submenu);

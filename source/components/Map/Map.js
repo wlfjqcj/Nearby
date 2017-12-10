@@ -9,7 +9,7 @@ import GoogleMapReact from 'google-map-react';
 import GoogleMap from 'google-map-react';
 import ReactModal from 'react-modal';
 import createReactClass from 'create-react-class';
-
+import { withRouter, browserHistory} from 'react-router'
 import ReplyChat from '../Reply/ReplyChat.js';
 import Submenu from './Submenu.js';
 import styles from './Map.scss';
@@ -27,6 +27,7 @@ class SimpleMap extends Component {
         this.handleClick = this.handleClick.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.changeonclick = this.changeonclick.bind(this);
+        this.logoutprops = this.logoutprops.bind(this);
         // this.additem = this.additem.bind(this);
         this.state = {
             zoommap:0,
@@ -189,6 +190,14 @@ class SimpleMap extends Component {
       this.interval = setInterval(() => this.tick(), 1000);
    }
 
+
+
+
+   logoutprops(e) {
+       console.log(e)
+       this.props.history.push("/login");
+   }
+
   render() {
     const tt = this.state.text;
     return (
@@ -219,8 +228,9 @@ class SimpleMap extends Component {
       </div>
       //menu
       <div className = 'submenu'>
-        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} />
+        <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} />
       </div>
+
 
     </div>
 
@@ -267,4 +277,4 @@ return (
 )}
 }
 
-export default SimpleMap
+export default withRouter(SimpleMap)
