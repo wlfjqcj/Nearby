@@ -23,28 +23,43 @@ class Submenu extends Component {
       showChat: false,
       showEvent: false,
       showHelper: false,
-      location:[0, 0],
-      date: new Date(),
-      chatinputvalue:'please enter'
+      helperlocation:[0, 0],
+      eventlocation:[0, 0],
+      helperdate: new Date(),
+      eventdate: new Date(),
+      helperinputvalue:'please enter',
+      eventinputvalue:'please enter'
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
 
+
+
+
     this.buildEvent = this.buildEvent.bind(this);
     this.closeEvent = this.closeEvent.bind(this);
-    this.locate = this.locate.bind(this);
+    this.selectEvent = this.selectEvent.bind(this);
+    this.eventlocate = this.helperlocate.bind(this);
+    this.onEventdateChange= this.onEventdateChange.bind(this);
+    this.updateEventInputValue = this.updateEventInputValue.bind(this);
+    this.createEvent = this.createEvent.bind(this);
+
+
+
+
+    this.helperlocate = this.helperlocate.bind(this);
     this.buildHelper = this.buildHelper.bind(this);
     this.closeHelper = this.closeHelper.bind(this);
+    this.createHelper = this.createHelper.bind(this);
     this.selectHelper = this.selectHelper.bind(this);
-    this.selectEvent = this.selectEvent.bind(this);
-    this.ondateChange= this.ondateChange.bind(this);
-    this.updateInputValue = this.updateInputValue.bind(this);
+    this.onHelperdateChange= this.onHelperdateChange.bind(this);
+    this.updateHelperInputValue = this.updateHelperInputValue.bind(this);
   }
   // onClick(info) {
   //   console.log('click ', info);
   //  }
 
-  //chat relative method
+  //-----------------------chat relative method---------------
   buildChat() {
     this.setState({
       build: '1',
@@ -61,65 +76,104 @@ class Submenu extends Component {
 
 
 
-//event relative method
+//----------------------------event relative method-----------------------------
 
   buildEvent() {
       this.setState({
         build: '2',
-        showEvent: true
+        showEvent: true,
+        eventlocation:[0,0]
       })
     }
 closeEvent () {
 
-              this.setState({ showHelper: false });
-              this.props.transferMsg((obj) => {})
-              // this.props.addstate(this.state.location)
-              console.log('hhsh')
-              axios.post(posturl,{
-               text:this.state.chatinputvalue,
-               type:'chat',
-               latitude:this.state.location[0],
-               longitude:this.state.location[1],
-               },{withCredentials:true})
-           .then(function (response) {
-               console.log(response)
-
-           }).catch(function (error) {
-
-           });
+    this.setState({ showEvent: false });
+    this.props.transferMsg((obj) => {})
     }
     selectEvent() {
         this.setState({ showEvent: false });
         this.props.transferMsg((obj) =>
         {
             this.setState(
-                {location:[obj.lat,obj.lng]}
+                {eventlocation:[obj.lat,obj.lng]}
             )
             this.setState({ showEvent: true });
         })
     }
 
+    updateEventInputValue(e) {
+        this.setState({
+            eventinputvalue: e.target.value
+        })
+    }
+    createEvent() {
+        this.setState({ showEvent: false });
+        this.props.transferMsg((obj) => {})
+        // this.props.addstate(this.state.location)
+        axios.post(posturl,{
+         text:this.state.eventinputvalue,
+         type:'chat',
+         latitude:this.state.eventlocation[0],
+         longitude:this.state.eventlocation[1],
+         },{withCredentials:true})
+     .then(function (response) {
+         console.log(response)
+
+     }).catch(function (error) {
+
+     });
+
+    }
+
+    eventlocate(){
+  if (navigator.geolocation) {
+      var x;
+      var y;
+      navigator.geolocation.getCurrentPosition(pos =>  {
+          var crd = pos.coords;
+          x = crd.latitude;
+          y = crd.longitude;
+          this.setState({
+              eventlocation:[x,y]
+          })
+      })
+
+  }
+  else {
+      this.setState(
+          {eventlocation:[0,0]}
+      )
+  }
+}
+
+selectEvent() {
+    this.setState({ showEvent: false });
+    this.props.transferMsg((obj) =>
+    {
+        this.setState(
+            {eventlocation:[obj.lat,obj.lng]}
+        )
+        this.setState({ showEvent: true });
+    })
+
+}
+onEventdateChange(date){this.setState({ eventdate:date })}
 
 
 
 
 
-
-
-
-
-
-//helper relative method
+//----------------------helper relative method------------------------------------
   buildHelper() {
       this.setState({
         build: '3',
         showHelper: true,
-        location:[0,0]
+        helperlocation:[0,0]
       })
 
     }
 
-    ondateChange(date){this.setState({ date })}
+    onHelperdateChange(date){this.setState({ helperdate:date })}
     closeHelper() {
 
       this.setState({ showHelper: false });
@@ -131,13 +185,13 @@ closeEvent () {
         this.props.transferMsg((obj) =>
         {
             this.setState(
-                {location:[obj.lat,obj.lng]}
+                {helperlocation:[obj.lat,obj.lng]}
             )
             this.setState({ showHelper: true });
         })
 
     }
-  locate(){
+  helperlocate(){
 if (navigator.geolocation) {
     var x;
     var y;
@@ -146,22 +200,42 @@ if (navigator.geolocation) {
         x = crd.latitude;
         y = crd.longitude;
         this.setState({
-            location:[x,y]
+            helperlocation:[x,y]
         })
     })
 
 }
 else {
     this.setState(
-        {location:[0,0]}
+        {helperlocation:[0,0]}
     )
 }
 
   }
+createHelper() {
+    this.setState({ showHelper: false });
+    this.props.transferMsg((obj) => {})
+    // this.props.addstate(this.state.location)
+    axios.post(posturl,{
+     text:this.state.helperinputvalue,
+     type:'chat',
+     latitude:this.state.helperlocation[0],
+     longitude:this.state.helperlocation[1],
+     },{withCredentials:true})
+ .then(function (response) {
+     console.log(response)
 
-updateInputValue(e) {
+ }).catch(function (error) {
+
+ });
+
+}
+
+
+
+updateHelperInputValue(e) {
     this.setState({
-        chatinputvalue: e.target.value
+        helperinputvalue: e.target.value
     })
 }
 
@@ -227,11 +301,15 @@ updateInputValue(e) {
             isOpen={this.state.showEvent}
             contentLabel="Minimal Modal Example"
             style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} >
-                <Input type="text" placeholder={this.state.location} />
-                <FontAwesome.FaMapMarker onClick = {this.locate} />
-                <Input placeholder="please select date"/>
-                <Button onClick={this.selectEvent}>Select Location</Button>
-                <Button onClick={() => this.setState({ showHelper: false })}>Close Modal</Button>
+            <div>
+           <Input type="text" placeholder={this.state.eventlocation} />
+           <FontAwesome.FaMapMarker onClick = {this.eventlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+           <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectEvent}>Select Location</Button>
+           </div>
+           <DatePicker onChange={this.onEventdateChange} value={this.state.eventdate}/>
+           <Input type="text" value={this.state.eventinputvalue} onChange= {(evt) => this.updateEventInputValue(evt) }/>
+           <Button onClick={this.createEvent}>Create New Event</Button>
+           <Button onClick={this.closeEvent}>Close Modal</Button>
             </ReactModal>
             : null
         }
@@ -242,13 +320,13 @@ updateInputValue(e) {
              contentLabel="Minimal Modal Example"
              >
                 <div>
-               <Input type="text" placeholder={this.state.location} />
-               <FontAwesome.FaMapMarker onClick = {this.locate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+               <Input type="text" placeholder={this.state.helperlocation} />
+               <FontAwesome.FaMapMarker onClick = {this.helperlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
                <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
                </div>
-               <DatePicker onChange={this.ondateChange} value={this.state.date}/>
-               <Input type="text" value={this.state.chatinputvalue} onChange= {(evt) => this.updateInputValue(evt) }/>
-               <Button onClick={this.closeEvent}>Create New Event</Button>
+               <DatePicker onChange={this.onHelperdateChange} value={this.state.helperdate}/>
+               <Input type="text" value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt) }/>
+               <Button onClick={this.createHelper}>Create New Helper</Button>
                <Button onClick={this.closeHelper}>Close Modal</Button>
              </ReactModal>
              : null
