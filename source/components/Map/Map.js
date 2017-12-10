@@ -30,7 +30,8 @@ class SimpleMap extends Component {
         this.logoutprops = this.logoutprops.bind(this);
         // this.additem = this.additem.bind(this);
         this.state = {
-            zoommap:0,
+            zoommap:15,
+            mapcenter:[40.11683643859134,-88.24157047271729],
             boundsmap:[],
             msg: "start",
             secondsElapsed:0,
@@ -82,6 +83,7 @@ class SimpleMap extends Component {
   //     })
   //
   // }
+
 
   componentWillMount() {
       this.setState({
@@ -188,6 +190,17 @@ class SimpleMap extends Component {
 
   componentDidMount() {
       this.interval = setInterval(() => this.tick(), 1000);
+      if (navigator.geolocation) {
+        console.log(navigator.geolocation.getCurrentPosition((pos)=> {
+            var crd = pos.coords;
+            console.log(crd)
+            this.setState({
+                mapcenter:[crd.latitude,crd.longitude]
+            })
+        }))
+    } else {
+        console.log("Geolocation is not supported by this browser.")
+    }
    }
 
 
@@ -206,8 +219,8 @@ class SimpleMap extends Component {
      //GoogleMap
       <div style = {{ height: '100px' , width : '100px'}}>
         <GoogleMapReact style = {{ height: '100px' , width : '100px'}} onClick={this.state.clickfunc} onChange={(e)=>this.handleChange(e)}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.zoom}
+          center={this.state.mapcenter}
+          zoom={this.state.zoommap}
         >
             {
                 this.state.chatobjects.map((v, index) => {
