@@ -43,6 +43,8 @@ class Submenu extends Component {
   // onClick(info) {
   //   console.log('click ', info);
   //  }
+
+  //chat relative method
   buildChat() {
     this.setState({
       build: '1',
@@ -50,15 +52,16 @@ class Submenu extends Component {
     })
   }
 
-
-
-  ondateChange(date){this.setState({ date })}
-
-
   closeChat () {
 
     this.setState({ showChat: false });
   }
+
+
+
+
+
+//event relative method
 
   buildEvent() {
       this.setState({
@@ -66,7 +69,7 @@ class Submenu extends Component {
         showEvent: true
       })
     }
-    closeEvent () {
+closeEvent () {
 
               this.setState({ showHelper: false });
               this.props.transferMsg((obj) => {})
@@ -96,6 +99,17 @@ class Submenu extends Component {
         })
     }
 
+
+
+
+
+
+
+
+
+
+
+//helper relative method
   buildHelper() {
       this.setState({
         build: '3',
@@ -104,6 +118,8 @@ class Submenu extends Component {
       })
 
     }
+
+    ondateChange(date){this.setState({ date })}
     closeHelper() {
 
       this.setState({ showHelper: false });
