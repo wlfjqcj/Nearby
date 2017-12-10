@@ -37,7 +37,9 @@ class Login extends React.Component {
         // create an AJAX request (This should probably done with Axios instead)
         const xhr = new XMLHttpRequest();
         xhr.open('post', loginurl + '/api/login');
+        xhr.withCredentials = true;
         xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+
         xhr.responseType = 'json';
         xhr.addEventListener('load', () => {
             if (xhr.status === 200) {

@@ -26,15 +26,19 @@ class Submenu extends Component {
       showChat: false,
       showEvent: false,
       showHelper: false,
+      chatlocation:[0,0],
       helperlocation:[0, 0],
       eventlocation:[0, 0],
       helperdate: new Date(),
       eventdate: new Date(),
       helperinputvalue:'please enter',
-      eventinputvalue:'please enter'
+      eventinputvalue:'please enter',
+      chatinputvalue:'please enter'
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
+    this.createChat = this.createChat.bind(this);
+    this.chatlocate = this.chatlocate.bind(this);
 
 
 
@@ -68,13 +72,58 @@ class Submenu extends Component {
   buildChat() {
     this.setState({
       build: '1',
-      showChat: true
+      showChat: true,
+      chatlocation:[211.1211,20.11122]
     })
   }
 
   closeChat () {
-
     this.setState({ showChat: false });
+  }
+  createChat() {
+      this.setState({ showChat: false });
+      // this.chatlocate()
+      axios.post(posturl,{
+       text:this.state.chatinputvalue,
+       type:'chat',
+       latitude:this.state.chatlocation[0],
+       longitude:this.state.chatlocation[1],
+       },{withCredentials:true})
+   .then(function (response) {
+       console.log(response)
+
+   }).catch(function (error) {
+
+   });
+
+  }
+
+ chatlocate(){
+if (navigator.geolocation) {
+    var x;
+    var y;
+    navigator.geolocation.getCurrentPosition(pos =>  {
+        var crd = pos.coords;
+        x = crd.latitude;
+        y = crd.longitude;
+        this.setState({
+            chatlocation:[x,y]
+        })
+    })
+
+}
+else {
+    this.setState(
+        {chatlocation:[0,0]}
+    )
+}
+
+  }
+
+  updateChatInputValue(e) {
+      this.setState({
+          chatinputvalue: e.target.value
+      })
   }
 
 
@@ -312,6 +361,9 @@ logout() {
            contentLabel="Minimal Modal Example"
            >
              <Button onClick={this.closeChat}>Close Modal</Button>
+             <Input type="text" value={this.state.chatinputvalue} onChange= {(evt) => this.updateChatInputValue(evt) }/>
+             <Button onClick={() => this.createChat()}>Create New Chat</Button>
+
            </ReactModal>
            : null
        }
