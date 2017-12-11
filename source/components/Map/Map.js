@@ -42,6 +42,7 @@ class SimpleMap extends Component {
             visible: false,
             text: "wait for response",
             chatobjects:[],
+            eventobjects:[],
             username:'haha'
 
 
@@ -111,6 +112,7 @@ class SimpleMap extends Component {
   }
   tick() {
       var chatobj = []
+      var eventobj = []
       axios.get( url, {withCredentials:true})
      .then((response) => {
        response.data.data.map((obj) => {
@@ -119,6 +121,13 @@ class SimpleMap extends Component {
              chatid:obj._id,
              location:[obj.latitude, obj.longitude],
          })
+         if(obj.type == 'event') {
+             eventobj.push({
+                 eventid:obj._id,
+                 location:[obj.latitude, obj.longitude],
+                 eventdetail:obj.text,
+             })
+         }
    	})
      this.setState({
          chatobjects:chatobj
@@ -276,7 +285,7 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
-    trigger={<Button icon style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick = {this.visiblechange}>Click me or Hover me</Button>}
+    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
     on={['hover','focus']}
     hoverable
 
