@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button, Menu,Dropdown, Icon as Tubiao } from 'semantic-ui-react'
+import { Button, Menu,Dropdown, Grid, Label, Icon as Tubiao } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
@@ -374,14 +374,38 @@ logout() {
             contentLabel="Minimal Modal Example"
             style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} >
             <div>
-           <Input type="text" placeholder={this.state.eventlocation} />
-           <FontAwesome.FaMapMarker onClick = {this.eventlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
-           <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectEvent}>Select Location</Button>
+            <Button style = {{height: 30 , width : 60}} onClick={this.closeEvent}>Close</Button>
+            <br />
+            <Grid>
+            <Grid.Column width={3}>
+            <Input type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.eventlocation} />
+            <Label pointing>Your Location</Label>
+            </Grid.Column>
+                <Grid.Column width={3}>
+                <Button style = {{ height: 30 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectEvent}>Select Location</Button>
+                 </Grid.Column>
+                  <Grid.Column width={3}>
+                <FontAwesome.FaMapMarker onClick = {this.eventlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+              </Grid.Column>
+            </Grid>
            </div>
-           <DatePicker onChange={this.onEventdateChange} value={this.state.eventdate}/>
-           <Input type="text" value={this.state.eventinputvalue} onChange= {(evt) => this.updateEventInputValue(evt) }/>
-           <Button onClick={this.createEvent}>Create New Event</Button>
-           <Button onClick={this.closeEvent}>Close Modal</Button>
+           <Grid>
+           <Grid.Column width={3}>
+           <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.eventinputvalue} onChange= {(evt) => this.updateEventInputValue(evt) } placeholder="please enter"/>
+           <Label pointing>Your Date</Label>
+           </Grid.Column>
+           <Grid.Column width={3}>
+           <DatePicker className='date' onChange={this.onEventdateChange} value={this.state.eventdate}/>
+           </Grid.Column>
+           </Grid>
+           <Grid>
+           <Grid.Column width={3}>
+           <Input type='text' style = {{ height: 30 , width : 300}} placeholder="Describe what kind of event you would like to hold" />
+           <Label pointing>Your Description</Label>
+           </Grid.Column>
+           </Grid>
+           <br />
+           <Button style = {{ height: 40 , width : 200}} color="blue" onClick={this.createEvent}>Create New Event</Button>
             </ReactModal>
             : null
         }
@@ -392,14 +416,38 @@ logout() {
              contentLabel="Minimal Modal Example"
              >
                 <div>
-               <Input type="text" placeholder={this.state.helperlocation} />
-               <FontAwesome.FaMapMarker onClick = {this.helperlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
-               <Button style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
+                <Button style = {{height: 30 , width : 60}} onClick={this.closeHelper}>Close</Button>
+                <br />
+                <Grid>
+                <Grid.Column width={3}>
+                <Input type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.helperlocation} />
+                <Label pointing>Your Location</Label>
+                </Grid.Column>
+                    <Grid.Column width={3}>
+                    <Button style = {{ height: 30 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
+                     </Grid.Column>
+                      <Grid.Column width={3}>
+                    <FontAwesome.FaMapMarker onClick = {this.helperlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+                  </Grid.Column>
+                </Grid>
                </div>
-               <DatePicker onChange={this.onHelperdateChange} value={this.state.helperdate}/>
-               <Input type="text" value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt) }/>
-               <Button onClick={this.createHelper}>Create New Helper</Button>
-               <Button onClick={this.closeHelper}>Close Modal</Button>
+               <Grid>
+               <Grid.Column width={3}>
+               <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter"/>
+               <Label pointing>Your Date</Label>
+               </Grid.Column>
+               <Grid.Column width={3}>
+               <DatePicker className='date' onChange={this.onHelperdateChange} value={this.state.helperdate}/>
+               </Grid.Column>
+               </Grid>
+               <Grid>
+               <Grid.Column width={3}>
+               <Input type='text' style = {{ height: 30 , width : 300}} placeholder="Describe what kind of help you would like" />
+               <Label pointing>Your Description</Label>
+               </Grid.Column>
+               </Grid>
+               <br />
+               <Button style = {{ height: 40 , width : 200}} color="blue" onClick={this.createHelper}>Create New Helper</Button>
              </ReactModal>
              : null
          }

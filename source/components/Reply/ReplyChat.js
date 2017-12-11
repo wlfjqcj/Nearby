@@ -131,8 +131,11 @@ constructor() {
 
 	handleClick(event) {
 		const idToRemove = Number(event.target.dataset["item"]);
+			console.log(idToRemove);
 		const newArray = this.state.myItems.filter((listitem) => {return listitem.id !== idToRemove});
+		console.log(newArray)
 		this.setState({ myItems: newArray });
+		//console.log(this.state.myItems);
 	}
 
 
@@ -147,7 +150,7 @@ constructor() {
 	makeAddedList() {
 
 		const elements =  this.state.myItems.map((listitem, index) => (
-			<li
+			<Button
 				key={listitem.id}
 				onClick={this.handleClick}
 				data-item={listitem.id}
@@ -156,7 +159,8 @@ constructor() {
 				}}
 			>
 				{listitem.content}
-			</li>
+
+			</Button>
 		));
 		return elements
 
@@ -221,7 +225,7 @@ constructor() {
 render() {
   const ct = "wait";
   return (
-    <div>
+    <div className = "kuang">
     <div><p>{ct}</p>
     <div>
     {this.makeAddedList()}
