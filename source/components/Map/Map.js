@@ -359,6 +359,7 @@ constructor(){
         visible:false,
     }
     this.visiblechange = this.visiblechange.bind(this);
+    this.visiblechangeclose = this.visiblechangeclose.bind(this)
 
 }
 visiblechange(){
