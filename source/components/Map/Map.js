@@ -307,6 +307,7 @@ constructor(){
         visible:false,
     }
     this.visiblechange = this.visiblechange.bind(this);
+    this.visiblechangeclose = this.visiblechangeclose.bind(this)
 
 }
 visiblechange(){
@@ -318,6 +319,15 @@ visiblechange(){
 
 }
 
+visiblechangeclose() {
+    this.setState({
+        visible:false
+    })
+
+}
+
+
+
 
 render()
 {
@@ -327,7 +337,7 @@ return (
     trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
     on={['hover']}
     hoverable
-
+    onClose = {this.visiblechangeclose}
   >
      <Popup.Content>
 
@@ -360,6 +370,13 @@ visiblechange(){
 
 }
 
+visiblechangeclose() {
+    this.setState({
+        visible:false
+    })
+
+}
+
 
 render()
 {
@@ -369,6 +386,7 @@ return (
     trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
     on={['hover']}
     hoverable
+    onClose = {this.visiblechangeclose}
 
   >
      <Popup.Content>
