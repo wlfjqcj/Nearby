@@ -20,3 +20,6 @@
 .ui.button:focus {
 	background-color: white;
 }
+.date {
+  z-index: 100;
+}

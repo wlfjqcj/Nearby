@@ -221,7 +221,7 @@ constructor() {
 render() {
   const ct = "wait";
   return (
-    <div>
+    <div className = "kuang">
     <div><p>{ct}</p>
     <div>
     {this.makeAddedList()}
