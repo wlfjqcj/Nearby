@@ -11,6 +11,7 @@ import ReactModal from 'react-modal';
 import createReactClass from 'create-react-class';
 import { withRouter, browserHistory} from 'react-router'
 import ReplyChat from '../Reply/ReplyChat.js';
+import ReplyEvent from '../ReplyEvent/ReplyEvent.jsx';
 import Submenu from './Submenu.js';
 import styles from './Map.scss';
 //Coordinate convert utils
@@ -36,7 +37,6 @@ class SimpleMap extends Component {
             msg: "start",
             secondsElapsed:0,
             clickfunc: function(obj){
-
                 console.log(obj.x, obj.y, obj.lat, obj.lng, obj.event);
             },
             visible: false,
@@ -92,6 +92,7 @@ class SimpleMap extends Component {
       })
       clearInterval(this.interval);
      var chatobj = []
+     var eventobj = []
      axios.get( url, {withCredentials:true})
     .then((response) => {
       response.data.data.map((obj) => {
@@ -100,10 +101,24 @@ class SimpleMap extends Component {
             chatid:obj._id,
             location:[obj.latitude, obj.longitude],
         })
+        if(obj.type == 'event') {
+            var details = JSON.parse(obj.text)
+            eventobj.push({
+                eventid:obj._id,
+                location:[obj.latitude, obj.longitude],
+                eventname: details.name,
+                eventdescription:details.description,
+                eventtime: details.date,
+                pati:obj.participants,
+                joins:(obj.participants.indexOf(this.state.username) > -1)
+            })
+        }
   	})
     this.setState({
-        chatobjects:chatobj
+        chatobjects:chatobj,
+        eventobjects:eventobj
     })
+
     })
     .catch(function (error) {
       console.log(error);
@@ -122,16 +137,24 @@ class SimpleMap extends Component {
              location:[obj.latitude, obj.longitude],
          })
          if(obj.type == 'event') {
+             var details = JSON.parse(obj.text)
              eventobj.push({
                  eventid:obj._id,
                  location:[obj.latitude, obj.longitude],
-                 eventdetail:obj.text,
+                 eventname: details.name,
+                 eventdescription:details.description,
+                 eventtime: details.date,
+                 pati:obj.participants,
+                 joins:(obj.participants.indexOf(this.state.username) > -1)
              })
          }
    	})
      this.setState({
-         chatobjects:chatobj
+         chatobjects:chatobj,
+         eventobjects:eventobj
      })
+
+
      })
      .catch(function (error) {
        console.log(error);
@@ -234,6 +257,7 @@ class SimpleMap extends Component {
             {
                 this.state.chatobjects.map((v, index) => {
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
                             //     <div class="hint__content">
@@ -244,6 +268,21 @@ class SimpleMap extends Component {
                         )
                       })
 
+            }
+            {
+                this.state.eventobjects.map((v, index) => {
+
+                        // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+                        // console.log(v)
+                        return (
+                            // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
+                            //     <div class="hint__content">
+                            //         <p>hahahah</p>
+                            //     </div>
+                            //     </div>
+                            <EventPopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  />
+                        )
+                      })
             }
 
         </GoogleMapReact>
@@ -286,7 +325,7 @@ render()
 return (
   <Popup
     trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
-    on={['hover','focus']}
+    on={['hover']}
     hoverable
 
   >
@@ -294,6 +333,48 @@ return (
 
       <p style={{display: this.state.visible ? 'none' : 'block' }}>short</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} /></div>
+    </Popup.Content>
+  </Popup>
+)}
+}
+
+
+
+
+
+class EventPopupExampleMultiple extends Component {
+constructor(){
+    super();
+    this.state = {
+        visible:false,
+    }
+    this.visiblechange = this.visiblechange.bind(this);
+
+}
+visiblechange(){
+    var status = this.state.visible;
+    status = !status
+    this.setState({
+        visible:status
+    })
+
+}
+
+
+render()
+{
+  const ct = "wait for respond";
+return (
+  <Popup
+    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
+    on={['hover']}
+    hoverable
+
+  >
+     <Popup.Content>
+
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>hellp</p>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyEvent eventid={this.props.eventid} username = {this.props.username} eventname = {this.props.eventname} eventtime = {this.props.eventtime} eventdescription = {this.props.eventdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
 )}

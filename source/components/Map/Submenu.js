@@ -33,7 +33,8 @@ class Submenu extends Component {
       eventdate: new Date(),
       helperinputvalue:'please enter',
       eventinputvalue:'please enter',
-      chatinputvalue:'please enter'
+      chatinputvalue:'please enter',
+      eventdescriptioninputvalue:'enter your description'
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -160,13 +161,21 @@ closeEvent () {
             eventinputvalue: e.target.value
         })
     }
+
+
+    updateEventDescriptionInputValue(e) {
+        this.setState({
+            eventdescriptioninputvalue: e.target.value
+        })
+    }
+
     createEvent() {
         this.setState({ showEvent: false });
         this.props.transferMsg((obj) => {})
         // this.props.addstate(this.state.location)
         axios.post(posturl,{
-         text:this.state.eventinputvalue,
-         type:'chat',
+         text:JSON.stringify({name:this.state.eventinputvalue,description:this.state.eventdescriptioninputvalue,date:this.state.eventdate.toString()}),
+         type:'event',
          latitude:this.state.eventlocation[0],
          longitude:this.state.eventlocation[1],
          },{withCredentials:true})
@@ -400,7 +409,7 @@ logout() {
            </Grid>
            <Grid>
            <Grid.Column width={3}>
-           <Input type='text' style = {{ height: 30 , width : 300}} placeholder="Describe what kind of event you would like to hold" />
+           <Input type='text' style = {{ height: 30 , width : 300}}  value={this.state.eventdescriptioninputvalue} onChange= {(evt) => this.updateEventDescriptionInputValue(evt) } placeholder="Describe what kind of event you would like to hold" />
            <Label pointing>Your Description</Label>
            </Grid.Column>
            </Grid>

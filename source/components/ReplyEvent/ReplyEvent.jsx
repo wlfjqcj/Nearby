@@ -5,90 +5,31 @@ import { Segment } from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
-import styles from './ReplyChat.scss';
+
 axios.defaults.withCredentials = true;
 
 const url = 'http://fengshuang.org:3000/api/post/id/'
 const posturl = 'http://fengshuang.org:3000/api/post/reply/'
+const joinurl = 'http://fengshuang.org:3000/api/post/join/'
+const quiturl = 'http://fengshuang.org:3000/api/post/quit/'
 import {Card, Image } from 'semantic-ui-react'
 class ReplyEvent extends Component {
-//   constructor(props) {
-//     super(props);
-//     this.state = {
-//         chatText: props.chatText,
-//         sending: props.sending,
-//         showChat: true
-//     };
-//     this.replyChat = this.replyChat.bind(this);
-//     this.closeChat = this.closeChat.bind(this);
-//   }
-//   replyChat() {
-//     this.setState({
-//       showChat: true
-//     })
-//   }
-//
-//   closeChat () {
-//     this.setState({ showChat: false });
-//   }
-//
-//    render() {
-//         let chatText = this.state.chatText
-//         if (this.state.sending == true) {
-//
-//
-//         return(
-//            <div className = 'buildItem' >
-//            <ReactModal
-//             isOpen={this.state.showChat}
-//             contentLabel="Minimal Modal Example"
-//             >
-//               <Button onClick={this.closeChat}>Close Modal</Button>
-//               <Comment.Group>
-//               <Segment stacked>
-//                  BlaBla
-//                </Segment>
-//                <Header as='h5' dividing>Comments</Header>
-//                   <Form reply>
-//                    <Form.TextArea />
-//                    <Button content='Add Reply' labelPosition='left' icon='edit' primary />
-//                 </Form>
-//               </Comment.Group>
-//             </ReactModal>
-//             </div>
-//         )
-//       }
-//       else {
-//         return (
-//           <div>
-//           </div>
-//         )
-//       }
-//
-//
-// }
+
 constructor() {
 		super();
+		this.exitacti = this.exitacti.bind(this);
+		this.joinacti = this.joinacti.bind(this);
 		this.state = {
-			eventname: this.props.eventname,
-            eventdescription:this.props.eventdescription,
-            eventtime: this.props.eventtime,
-            eventparticipants:this.props.eventparticipants,
+			eventname: 'this.props.eventname',
+            eventdescription:'this.props.eventdescription',
+            eventtime: 'this.props.eventtime',
+            eventparticipants:'this.props.participants',
 			secondsElapsed:0,
-            joinstatus: this.props.joinstatus,
-            myItems:[]
+            joinstatus: true,
+            myItems:[],
+			username:localStorage.getItem("username")
 		};
-		this.lastId = -1;
 	}
-
-
-
-
-
-
-
-
-
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.content_add != this.state.content_add) {
@@ -105,17 +46,30 @@ constructor() {
        clearInterval(this.interval);
 	   var message = []
 
-	   axios.get(url + this.props.chatid, {withCredentials:true})
+	   axios.get(url + this.props.eventid, {withCredentials:true})
 
 		.then((response) =>  {
+		var detailed = JSON.parse(response.data.data.text)
 		var message = []
+		var parti = []
 		response.data.data.replies.map((obj) => {
 			message.push(obj.text)
 		})
-        this.setState({
-            myItems: message
+		this.setState({
+            eventdescription:detailed.description,
+            eventtime:detailed.date,
+            eventname:detailed.name,
         })
-
+		response.data.data.replies.map((obj) => {
+			message.push(obj.text)
+		})
+		response.data.data.participants.map((obj) => {
+			parti.push(obj.username)
+		})
+        this.setState({
+            myItems: message,
+			joinstatus:(parti.indexOf(this.state.username) > -1)
+        })
 		})
 		.catch(function (error) {
 		  console.log(error);
@@ -124,19 +78,25 @@ constructor() {
 
   tick() {
 	var message = []
-	axios.get(url + this.props.chatid, {withCredentials:true})
+	axios.get(url + this.props.eventid, {withCredentials:true})
     .then((response) =>  {
+		var detailed = JSON.parse(response.data.data.text)
         var message = []
+		var parti = []
         this.setState({
-            eventdescription:response.data.data.text.description,
-            eventdate:response.data.data.text.date,
-            eventname:response.data.data.text.name
+            eventdescription:detailed.description,
+            eventtime:detailed.date,
+            eventname:detailed.name,
         })
         response.data.data.replies.map((obj) => {
 			message.push(obj.text)
 		})
+		response.data.data.participants.map((obj) => {
+			parti.push(obj.username)
+		})
         this.setState({
-            myItems: message
+            myItems: message,
+			joinstatus:(parti.indexOf(this.state.username) > -1)
         })
   })
   .catch(function (error) {
@@ -149,36 +109,83 @@ constructor() {
 }
 
 
-render()
-{
-    return
-    (<Card>
-      <Card.Content>
-        <Image floated='right' size='mini' src='/assets/images/avatar/large/steve.jpg' />
-        <Card.Header>
-          {this.state.eventname}
-        </Card.Header>
-        <Card.Meta>
-          {this.state.eventdate}
-        </Card.Meta>
-        <Card.Description>
-          {this.state.eventdescription}
-        </Card.Description>
-      </Card.Content>
-      <Card.Content extra>
-          <div className='ui two buttons'>
+joinacti() {
 
-              {this.state.joinstatus ? (
-        <Button basic color='green'>Join</Button> />
-      ) : (
-         <Button basic color='red'>Decline</Button> />
-      )
-        }
-        </div>
-      </Card.Content>
-  </Card>
-    )
+	axios.post(joinurl + this.props.eventid, {withCredentials:true})
+
+	 .then((response) =>  {
+	 var detailed = JSON.parse(response.data.data.text)
+	 var parti = []
+	 response.data.data.participants.map((obj) => {
+		 parti.push(obj.username)
+	 })
+	 this.setState({
+		 joinstatus:(parti.indexOf(this.state.username) > -1)
+	 })
+
+
+	 })
+	 .catch(function (error) {
+	   console.log(error);
+	 });
+
 }
+
+exitacti(){
+
+	axios.post(quiturl + this.props.eventid, {withCredentials:true})
+
+	 .then((response) =>  {
+		 var detailed = JSON.parse(response.data.data.text)
+		 var parti = []
+		 response.data.data.participants.map((obj) => {
+			 parti.push(obj.username)
+		 })
+		 this.setState({
+			 joinstatus:(parti.indexOf(this.state.username) > -1)
+		 })
+
+
+	 })
+	 .catch(function (error) {
+	   console.log(error);
+	 });
+
+}
+
+
+
+
+render() {
+	return (
+		<Card>
+		 <Card.Content>
+	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
+	        <Card.Header>
+	          {this.state.eventname}
+	        </Card.Header>
+	        <Card.Meta>
+	          {this.state.eventtime}
+	        </Card.Meta>
+	        <Card.Description>
+	          {this.state.eventdescription}
+	        </Card.Description>
+	      </Card.Content>
+	      <Card.Content extra>
+
+
+	              {!this.state.joinstatus ? (
+	        <Button basic color='green' onClick = {this.joinacti}>Join</Button>
+	      ) : (
+	         <Button basic color='red' onClick = {this.exitacti}>Decline</Button>
+	      )
+	        }
+
+		</Card.Content>
+	</Card>
+		)
+}
+
 }
 
 export default ReplyEvent
