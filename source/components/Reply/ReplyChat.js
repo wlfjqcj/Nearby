@@ -117,6 +117,14 @@ constructor() {
     			text:currentcontent
   			},{withCredentials:true})
 			.then(function (response) {
+				var message = []
+				response.data.data.replies.map((obj) => {
+					message.push(obj)
+				})
+				this.setState({
+					myItems: message,
+					mainchat:response.data.data.text
+				})
 
   		})
   .catch(function (error) {
@@ -152,14 +160,9 @@ constructor() {
 
 		const elements =  this.state.myItems.map((listitem, index) => (
 			<Button
-				key={listitem.id}
 				onClick={this.handleClick}
-				data-item={listitem.id}
-				style={{
-					width: listitem.itemWidth
-				}}
 			>
-				{listitem.content}
+				{listitem.text}
 
 			</Button>
 		));
@@ -240,7 +243,6 @@ render() {
 					onKeyPress={this.handleKeypress}
 					onBlur={this.handleBlur}
 					value={this.state.content_add}
-					style={{ width: this.state.width }}
           placeholder = "comment"
 				/>
 

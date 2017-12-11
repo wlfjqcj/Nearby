@@ -102,6 +102,7 @@ class SimpleMap extends Component {
           if (obj.type == 'chat')
   		chatobj.push({
             chatid:obj._id,
+            chattopic:obj.text,
             location:[obj.latitude, obj.longitude],
         })
         if(obj.type == 'event') {
@@ -151,6 +152,7 @@ class SimpleMap extends Component {
            if (obj.type == 'chat')
    		chatobj.push({
              chatid:obj._id,
+             chattopic:obj.text,
              location:[obj.latitude, obj.longitude],
          })
          if(obj.type == 'event') {
@@ -295,7 +297,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter}/>
+                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic}/>
                         )
                       })
 
@@ -387,7 +389,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>short</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.popname}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} /></div>
     </Popup.Content>
   </Popup>
@@ -438,7 +440,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>hellp</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.eventname}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyEvent eventid={this.props.eventid} username = {this.props.username} eventname = {this.props.eventname} eventtime = {this.props.eventtime} eventdescription = {this.props.eventdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
@@ -489,7 +491,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>hellp</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.helpername}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyHelper helperid={this.props.helperid} username = {this.props.username} helpername = {this.props.helpername} helpertime = {this.props.helpertime} helperdescription = {this.props.helperdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
