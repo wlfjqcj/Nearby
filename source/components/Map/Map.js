@@ -12,6 +12,7 @@ import createReactClass from 'create-react-class';
 import { withRouter, browserHistory} from 'react-router'
 import ReplyChat from '../Reply/ReplyChat.js';
 import ReplyEvent from '../ReplyEvent/ReplyEvent.jsx';
+import ReplyHelper from '../ReplyHelper/ReplyHelper.jsx';
 import Submenu from './Submenu.js';
 import styles from './Map.scss';
 //Coordinate convert utils
@@ -43,6 +44,7 @@ class SimpleMap extends Component {
             text: "wait for response",
             chatobjects:[],
             eventobjects:[],
+            helperobjects:[],
             username:'haha'
 
 
@@ -93,6 +95,7 @@ class SimpleMap extends Component {
       clearInterval(this.interval);
      var chatobj = []
      var eventobj = []
+     var helperobj = []
      axios.get( url, {withCredentials:true})
     .then((response) => {
       response.data.data.map((obj) => {
@@ -113,10 +116,23 @@ class SimpleMap extends Component {
                 joins:(obj.participants.indexOf(this.state.username) > -1)
             })
         }
+        if(obj.type == 'helper') {
+            var details = JSON.parse(obj.text)
+            helperobj.push({
+                helperid:obj._id,
+                location:[obj.latitude, obj.longitude],
+                helpername: details.name,
+                helperdescription:details.description,
+                helpertime: details.date,
+                pati:obj.participants,
+                joins:(obj.participants.indexOf(this.state.username) > -1)
+            })
+        }
   	})
     this.setState({
         chatobjects:chatobj,
-        eventobjects:eventobj
+        eventobjects:eventobj,
+        helperobjects:helperobj
     })
 
     })
@@ -128,6 +144,7 @@ class SimpleMap extends Component {
   tick() {
       var chatobj = []
       var eventobj = []
+      var helperobj = []
       axios.get( url, {withCredentials:true})
      .then((response) => {
        response.data.data.map((obj) => {
@@ -148,10 +165,24 @@ class SimpleMap extends Component {
                  joins:(obj.participants.indexOf(this.state.username) > -1)
              })
          }
+         if(obj.type == 'helper') {
+             var details = JSON.parse(obj.text)
+             helperobj.push({
+                 helperid:obj._id,
+                 location:[obj.latitude, obj.longitude],
+                 helpername: details.name,
+                 helperdescription:details.description,
+                 helpertime: details.date,
+                 pati:obj.participants,
+                 joins:(obj.participants.indexOf(this.state.username) > -1)
+             })
+         }
+
    	})
      this.setState({
          chatobjects:chatobj,
-         eventobjects:eventobj
+         eventobjects:eventobj,
+         helperobjects:helperobj
      })
 
 
@@ -284,6 +315,21 @@ class SimpleMap extends Component {
                         )
                       })
             }
+            {
+                this.state.helperobjects.map((v, index) => {
+
+                        // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
+                        // console.log(v)
+                        return (
+                            // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
+                            //     <div class="hint__content">
+                            //         <p>hahahah</p>
+                            //     </div>
+                            //     </div>
+                            <HelperPopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername}  />
+                        )
+                      })
+            }
 
         </GoogleMapReact>
       </div>
@@ -394,6 +440,57 @@ return (
 
       <p style={{display: this.state.visible ? 'none' : 'block' }}>hellp</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyEvent eventid={this.props.eventid} username = {this.props.username} eventname = {this.props.eventname} eventtime = {this.props.eventtime} eventdescription = {this.props.eventdescription} participants = {this.props.participants} /></div>
+    </Popup.Content>
+  </Popup>
+)}
+}
+
+
+
+
+
+class HelperPopupExampleMultiple extends Component {
+constructor(){
+    super();
+    this.state = {
+        visible:false,
+    }
+    this.visiblechange = this.visiblechange.bind(this);
+    this.visiblechangeclose = this.visiblechangeclose.bind(this)
+
+}
+visiblechange(){
+    var status = this.state.visible;
+    status = !status
+    this.setState({
+        visible:status
+    })
+
+}
+
+visiblechangeclose() {
+    this.setState({
+        visible:false
+    })
+
+}
+
+
+render()
+{
+  const ct = "wait for respond";
+return (
+  <Popup
+    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513013602/map-marker_1_x2dyph.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
+    on={['hover']}
+    hoverable
+    onClose = {this.visiblechangeclose}
+
+  >
+     <Popup.Content>
+
+      <p style={{display: this.state.visible ? 'none' : 'block' }}>hellp</p>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyHelper helperid={this.props.helperid} username = {this.props.username} helpername = {this.props.helpername} helpertime = {this.props.helpertime} helperdescription = {this.props.helperdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
 )}

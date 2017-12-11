@@ -280,10 +280,10 @@ createHelper() {
     this.props.transferMsg((obj) => {})
     // this.props.addstate(this.state.location)
     axios.post(posturl,{
-     text:this.state.helperinputvalue,
-     type:'chat',
-     latitude:this.state.helperlocation[0],
-     longitude:this.state.helperlocation[1],
+        text:JSON.stringify({name:this.state.helperinputvalue,description:this.state.helperdescriptioninputvalue,date:this.state.helperdate.toString()}),
+        type:'helper',
+        latitude:this.state.helperlocation[0],
+        longitude:this.state.helperlocation[1],
      },{withCredentials:true})
  .then(function (response) {
      console.log(response)
