@@ -79,7 +79,8 @@ constructor() {
 			content_add: "+ Comment",
 			width: 100,
 			myItems: [],
-			secondsElapsed:0
+			secondsElapsed:0,
+			mainchat:''
 		};
 		this.lastId = -1;
 	}
@@ -177,12 +178,12 @@ constructor() {
 		.then((response) =>  {
 		var message = []
 		response.data.data.replies.map((obj) => {
-			message.push(obj.text)
-			this.setState({
-				myItems: message
-			})
+			message.push(obj)
 		})
-
+		this.setState({
+			myItems: message,
+			mainchat:response.data.data.text
+		})
 		})
 		.catch(function (error) {
 		  console.log(error);
@@ -195,18 +196,16 @@ constructor() {
 
   .then((response) =>  {
 	 var message = []
-	 this.id = -1
+
 	 var currentWidth = this.helperspan.offsetWidth
 	 response.data.data.replies.map((obj) => {
-		 message.push({
-			 content: obj.text,
-			 id: ++this.lastId,
-			 itemWidth: currentWidth + 2
-		 })
+		message.push(obj)
 
-		 this.setState({
-			 myItems: message
-		 })
+
+	 })
+	 this.setState({
+		 myItems: message,
+		 mainchat:response.data.data.text
 	 })
 
   })
