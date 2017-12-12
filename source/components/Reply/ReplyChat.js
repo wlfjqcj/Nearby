@@ -3,7 +3,7 @@ import { Button, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import ReactModal from 'react-modal'
-import { Comment, Form, Header, Segment} from 'semantic-ui-react'
+import { Comment, Form, Header, Segment,Loader} from 'semantic-ui-react'
 import { Card, Feed, List, Image,Input } from 'semantic-ui-react'
 import styles from './ReplyChat.scss';
 import {emojify} from 'react-emojione';
@@ -68,11 +68,13 @@ class ReplyChat extends Component {
 // }
 constructor() {
 		super();
+		this.deletepost = this.deletepost.bind(this);
 		this.handleFocus = this.handleFocus.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.handleKeypress = this.handleKeypress.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
-		this.handleClick = this.handleClick.bind(this);
+		this.computeSentimant = this.computeSentimant.bind(this);
+		// this.handleClick = this.handleClick.bind(this);
 		this.imgId = this.imgId.bind(this);
 
 		this.helperspan = null;
@@ -83,6 +85,10 @@ constructor() {
 			myItems: [],
 			secondsElapsed:0,
 			mainchat:'',
+			chatsubject:'',
+			emojinumber:0,
+			loading:false,
+			emojistatus:false,
 			currentimg: [
 				"https://semantic-ui.com/images/avatar/large/elliot.jpg",
 				"https://semantic-ui.com/images/avatar/large/joe.jpg",
@@ -129,7 +135,7 @@ constructor() {
 				return;
 			}
 
-			var currentWidth = this.helperspan.offsetWidth;
+			// var currentWidth = this.helperspan.offsetWidth;
 			newArray.push({
 				content: currentcontent,
 				id: ++this.lastId,
@@ -138,6 +144,7 @@ constructor() {
 			this.setState({
 				myItems: newArray,
 				content_add: "",
+				loading:true
 			});
 			axios.post(posturl  +  this.props.chatid, {
     			text:currentcontent
@@ -149,7 +156,8 @@ constructor() {
 				})
 				this.setState({
 					myItems: message,
-					mainchat:response.data.data.text
+					mainchat:response.data.data.text,
+					loading:true
 				})
 
   		})
@@ -160,24 +168,43 @@ constructor() {
 		}
 	}
 
+
+	deletepost() {
+		console.log(this.state.chatsubject,localStorage.getItem('username'))
+		if (this.state.chatsubject == localStorage.getItem('username'))
+			{
+				axios.delete(url + this.props.chatid, {withCredentials:true})
+				.then((response) =>  {
+
+				}).catch(function (error) {
+				  console.log(error);
+				})
+			}
+		else
+			alert('you have no access for this')
+
+	}
+
+
+
 	handleBlur(event) {
 		this.setState({ content_add: "add +" });
 	}
 
-	handleClick(event) {
-		const idToRemove = Number(event.target.dataset["item"]);
-			console.log(idToRemove);
-		const newArray = this.state.myItems.filter((listitem) => {return listitem.id !== idToRemove});
-		console.log(newArray)
-		this.setState({ myItems: newArray });
-		//console.log(this.state.myItems);
-	}
+	// handleClick(event) {
+	// 	const idToRemove = Number(event.target.dataset["item"]);
+	// 		console.log(idToRemove);
+	// 	const newArray = this.state.myItems.filter((listitem) => {return listitem.id !== idToRemove});
+	// 	console.log(newArray)
+	// 	this.setState({ myItems: newArray });
+	// 	//console.log(this.state.myItems);
+	// }
 
 
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.content_add != this.state.content_add) {
-			const helperWidth = this.helperspan.offsetWidth;
+			// const helperWidth = this.helperspan.offsetWidth;
 			this.setState({ width: Math.max(50, helperWidth + 1) });
 		}
 	}
@@ -192,6 +219,50 @@ constructor() {
 	// 	return elements
   //
 	// }
+
+	componentWillMount() {
+		axios.get(url + this.props.chatid, {withCredentials:true})
+
+		 .then((response) =>  {
+		 var message = []
+		 response.data.data.replies.map((obj) => {
+			 message.push(obj)
+		 })
+
+		 this.setState({
+			 myItems: message,
+			 mainchat:response.data.data.text,
+			 loading:true,
+			 chatsubject:response.data.data.username
+		  })
+		  this.computeSentimant()
+		 })
+		 .catch(function (error) {
+		   console.log(error);
+		 });
+
+	}
+	computeSentimant(){
+		axios.post( 'https://language.googleapis.com/v1/documents:analyzeSentiment?key=AIzaSyCGfyVGMNg5RghUYCt0zWzHs16UGwRuLp4',{
+		   "encodingType": "UTF8",
+		   "document": {
+		   "type": "PLAIN_TEXT",
+		   "content": this.state.mainchat
+		   }
+		   }, {withCredentials:false})
+	   .then((rp) => {
+		   console.log(rp)
+		   this.setState({
+			   emojinumber:rp.data.documentSentiment.score,
+			   emojistatus:true
+			})
+   			}).catch(function (error) {
+	 console.log(error);
+   	});
+
+	}
+
+
 	componentDidMount() {
 	    this.interval = setInterval(() => this.tick(), 1000);
 	 }
@@ -208,7 +279,9 @@ constructor() {
 		})
 		this.setState({
 			myItems: message,
-			mainchat:response.data.data.text
+			mainchat:response.data.data.text,
+			loading:true,
+			chatsubject:response.data.data.username
 		 })
 		})
 		.catch(function (error) {
@@ -223,7 +296,7 @@ constructor() {
   .then((response) =>  {
 	 var message = []
 
-	 var currentWidth = this.helperspan.offsetWidth
+	 // var currentWidth = this.helperspan.offsetWidth
 	 response.data.data.replies.map((obj) => {
 		message.push(obj)
 
@@ -232,6 +305,8 @@ constructor() {
 	 this.setState({
 		 myItems: message,
 		 mainchat:response.data.data.text,
+		 loading:true,
+		 chatsubject:response.data.data.username
 	 })
 
   })
@@ -257,19 +332,36 @@ imgId(){
 
 
 render() {
+
   const ct = "wait";
 	let imgid = 0;
 	let userid = -1;
-  return (
+	
+	if (this.state.emojinumber > -1 && this.state.emojinumber <= -0.5)
+		var emoji = '😠'
+	else if (this.state.emojinumber > -0.5 && this.state.emojinumber <= 0)
+	 	var emoji = '😞'
+		else if (this.state.emojinumber > 0 && this.state.emojinumber <= 0.5)
+		 	var emoji = '😃'
+			else
+			 	var emoji = '😊'
 
+
+
+
+  return (
+	  <div>
+	  			{this.state.loading?(
     <div className = "kuang">
-		<Button className="close"  floated='right' >x</Button>
+		<Button className="close"  floated='right' onClick = {this.deletepost}>x</Button>
 		<br />
 		<br />
     <div id="chattitle">
-		{emojify('Sentiment Analysis:wink: 😸 :D  ^__^')}
+		<div>
+	{this.state.emojistatus?emojify('Sentiment Analysis:' + emoji):(<Loader active inline >Loading</Loader>)}
+</div>
 		<Segment raised>
-  <p>@{this.props.username}: {this.props.chatname}</p>
+  <p>@{this.state.chatsubject}: {this.props.chatname}</p>
   </Segment>
 	</div>
 	<br />
@@ -314,8 +406,8 @@ render() {
 
 				</div>
 				</div>
-    </div>
-
+    </div>):(<div><Loader active inline >Loading</Loader></div>)}
+</div>
   )
 
 }

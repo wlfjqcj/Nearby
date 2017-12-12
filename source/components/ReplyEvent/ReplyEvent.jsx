@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 import { Segment } from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
-import { Comment, Form, Header } from 'semantic-ui-react'
+import { Comment, Form, Header,Loader } from 'semantic-ui-react'
 import styles from './ReplyEvent.scss';
 axios.defaults.withCredentials = true;
 
@@ -19,14 +19,17 @@ constructor() {
 		super();
 		this.exitacti = this.exitacti.bind(this);
 		this.joinacti = this.joinacti.bind(this);
+		this.deletepost = this.deletepost.bind(this);
 		this.state = {
 			eventname: 'this.props.eventname',
             eventdescription:'this.props.eventdescription',
             eventtime: 'this.props.eventtime',
             eventparticipants:'this.props.participants',
 			secondsElapsed:0,
+			eventsubject:'',
             joinstatus: true,
             myItems:[],
+			loading:false,
 			username:localStorage.getItem("username")
 		};
 	}
@@ -38,6 +41,41 @@ constructor() {
 		}
 	}
 
+
+
+	componentWillMount() {
+		axios.get(url + this.props.eventid, {withCredentials:true})
+
+		 .then((response) =>  {
+		 var detailed = JSON.parse(response.data.data.text)
+		 var message = []
+		 var parti = []
+		 response.data.data.replies.map((obj) => {
+			 message.push(obj.text)
+		 })
+		 this.setState({
+			 eventdescription:detailed.description,
+			 eventtime:detailed.date,
+			 eventname:detailed.name,
+		 })
+		 response.data.data.replies.map((obj) => {
+			 message.push(obj.text)
+		 })
+		 response.data.data.participants.map((obj) => {
+			 parti.push(obj.username)
+		 })
+		 this.setState({
+			 myItems: message,
+			 joinstatus:(parti.indexOf(this.state.username) > -1),
+			 loading:true,
+			 eventsubject:response.data.data.username
+		 })
+		 })
+		 .catch(function (error) {
+		   console.log(error);
+		 });
+
+	}
 
 	componentDidMount() {
 	    this.interval = setInterval(() => this.tick(), 1000);
@@ -68,7 +106,9 @@ constructor() {
 		})
         this.setState({
             myItems: message,
-			joinstatus:(parti.indexOf(this.state.username) > -1)
+			joinstatus:(parti.indexOf(this.state.username) > -1),
+			loading:true,
+			eventsubject:response.data.data.username
         })
 		})
 		.catch(function (error) {
@@ -96,7 +136,9 @@ constructor() {
 		})
         this.setState({
             myItems: message,
-			joinstatus:(parti.indexOf(this.state.username) > -1)
+			joinstatus:(parti.indexOf(this.state.username) > -1),
+			loading:true,
+			eventsubject:response.data.data.username
         })
   })
   .catch(function (error) {
@@ -153,14 +195,34 @@ exitacti(){
 
 }
 
+deletepost() {
+	console.log(this.state.eventsubject,localStorage.getItem('username'))
+	if (this.state.eventsubject == localStorage.getItem('username'))
+		{
+			axios.delete(url + this.props.eventid, {withCredentials:true})
+			.then((response) =>  {
+
+			}).catch(function (error) {
+			  console.log(error);
+			})
+		}
+	else
+		alert('you have no access for this')
+
+}
+
 
 
 
 render() {
 	return (
-		<Card id="events">
+
+		<div>
+			{this.state.loading?
+		(<div>
+			<Card id="events">
 		 <Card.Content>
-		 <Button className="close"  floated='right' >x</Button>
+		 <Button className="close"  floated='right' onClick = {this.deletepost}>x</Button>
  		<br />
  		<br />
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
@@ -186,6 +248,8 @@ render() {
 
 		</Card.Content>
 	</Card>
+</div>):(<Loader active inline >Loading</Loader>)}
+</div>
 		)
 }
 

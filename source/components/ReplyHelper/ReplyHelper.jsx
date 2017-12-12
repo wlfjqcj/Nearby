@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Button, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { Segment } from 'semantic-ui-react'
+import { Segment ,Loader} from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
@@ -19,18 +19,25 @@ constructor() {
 		super();
 		this.exitacti = this.exitacti.bind(this);
 		this.joinacti = this.joinacti.bind(this);
+		this.deletepost = this.deletepost.bind(this);
 		this.state = {
 			helpername: 'this.props.helpername',
             helperdescription:'this.props.helperdescription',
             helpertime: 'this.props.helpertime',
             helperparticipants:'this.props.participants',
 			secondsElapsed:0,
+			helpersubject:'',
             joinstatus: true,
+			loading:false,
             myItems:[],
 			username:localStorage.getItem("username"),
 			abletoview: true
 		};
 	}
+
+
+
+
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.content_add != this.state.content_add) {
@@ -38,7 +45,21 @@ constructor() {
 			this.setState({ width: Math.max(50, helperWidth + 1) });
 		}
 	}
+	deletepost() {
+		console.log(this.state.helpersubject,localStorage.getItem('username'))
+		if (this.state.helpersubject == localStorage.getItem('username'))
+			{
+				axios.delete(url + this.props.helperid, {withCredentials:true})
+				.then((response) =>  {
 
+				}).catch(function (error) {
+				  console.log(error);
+				})
+			}
+		else
+			alert('you have no access for this')
+
+	}
 
 	componentDidMount() {
 	    this.interval = setInterval(() => this.tick(), 1000);
@@ -70,7 +91,9 @@ constructor() {
         this.setState({
             myItems: message,
 			joinstatus:(parti.indexOf(this.state.username) > -1),
-			abletoview:((parti.indexOf(this.state.username) > -1 && parti.length >= 2) || parti.length < 2)
+			abletoview:((parti.indexOf(this.state.username) > -1 && parti.length >= 2) || parti.length < 2),
+			loading:true,
+			helpersubject:response.data.data.username
         })
 		})
 		.catch(function (error) {
@@ -79,6 +102,7 @@ constructor() {
     }
 
   tick() {
+
 	var message = []
 	axios.get(url + this.props.helperid, {withCredentials:true})
     .then((response) =>  {
@@ -96,10 +120,13 @@ constructor() {
 		response.data.data.participants.map((obj) => {
 			parti.push(obj.username)
 		})
+		console.log('sss')
         this.setState({
             myItems: message,
 			joinstatus:(parti.indexOf(this.state.username) > -1),
-			abletoview:((parti.indexOf(this.state.username) > -1 && parti.length >= 1) || parti.length < 1)
+			abletoview:((parti.indexOf(this.state.username) > -1 && parti.length >= 1) || parti.length < 1),
+			loading:true,
+			helpersubject:response.data.data.username
         })
   })
   .catch(function (error) {
@@ -161,9 +188,13 @@ exitacti(){
 
 render() {
 	return (
+
+		<div>
+			{this.state.loading?
+		(
 		<Card id="helper">
 		 <Card.Content>
-		 <Button className="close"  floated='right' >x</Button>
+		 <Button className="close"  floated='right' onClick = {this.deletepost}>x</Button>
 		 <br />
 		 <br />
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
@@ -194,7 +225,8 @@ render() {
 			):(<p>no access to this</p>)}
 
 		</Card.Content>
-	</Card>
+	</Card>):(<Loader active inline >Loading</Loader>)}
+</div>
 		)
 }
 
