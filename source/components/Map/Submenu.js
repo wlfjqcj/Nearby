@@ -18,6 +18,17 @@ import styles from './Submenu.css';
 axios.defaults.withCredentials = true;
 const posturl = 'http://fengshuang.org:3000/api/post/'
 const logouturl = 'http://fengshuang.org:3000/api/logout/'
+const customStyles = {
+  content : {
+    top                   : '50%',
+    left                  : '50%',
+    right                 : 'auto',
+    bottom                : 'auto',
+    marginRight           : '-50%',
+    transform             : 'translate(-50%, -50%)'
+  }
+};
+
 class Submenu extends Component {
   constructor () {
     super();
@@ -31,9 +42,9 @@ class Submenu extends Component {
       eventlocation:[0, 0],
       helperdate: new Date(),
       eventdate: new Date(),
-      helperinputvalue:'please enter',
-      eventinputvalue:'please enter',
-      chatinputvalue:'please enter',
+      helperinputvalue:null,
+      eventinputvalue:null,
+      chatinputvalue:null,
       eventdescriptioninputvalue:'enter your description'
     };
     this.buildChat = this.buildChat.bind(this);
@@ -359,6 +370,17 @@ logout() {
   }
 
   render() {
+    const customStyles = {
+      content : {
+        top                   : '50%',
+        left                  : '50%',
+        right                 : 'auto',
+        bottom                : 'auto',
+        marginRight           : '-50%',
+        transform             : 'translate(-50%, -50%)'
+      }
+    };
+
     return (
     <div>
       <div className = 'dropmenu' >{this.getMenu()}</div>
@@ -382,36 +404,40 @@ logout() {
            ? <ReactModal
             isOpen={this.state.showEvent}
             contentLabel="Minimal Modal Example"
-            style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} >
+          style={customStyles} >
             <div>
-            <Button style = {{height: 30 , width : 60}} onClick={this.closeEvent}>Close</Button>
+            <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeEvent}>Close</Button>
             <br />
             <Grid>
-            <Grid.Column width={3}>
+            <Grid.Column width={5}>
             <Input type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.eventlocation} />
             <Label pointing>Your Location</Label>
             </Grid.Column>
-                <Grid.Column width={3}>
-                <Button style = {{ height: 30 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectEvent}>Select Location</Button>
-                 </Grid.Column>
-                  <Grid.Column width={3}>
-                <FontAwesome.FaMapMarker onClick = {this.eventlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+                <Grid.Column width={5}>
+                <Button.Group>
+                <Button style = {{ height: 30 , width : 150}} basic color='blue' onClick={this.selectEvent}>Select Location</Button>
+                <Button style = {{ height: 30 , width : 150}} basic color='blue' onClick = {this.eventlocate}>Current Location</Button>
+                 </Button.Group>
               </Grid.Column>
             </Grid>
            </div>
            <Grid>
-           <Grid.Column width={3}>
-           <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.eventinputvalue} onChange= {(evt) => this.updateEventInputValue(evt) } placeholder="please enter"/>
-           <Label pointing>Your Date</Label>
+           <Grid.Column width={5}>
+           <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.eventinputvalue} onChange= {(evt) => this.updateEventInputValue(evt)} placeholder="please enter"/>
+           <Label pointing>Your Subject</Label>
+
            </Grid.Column>
-           <Grid.Column width={3}>
+
+           <Grid.Column width={5}>
            <DatePicker className='date' onChange={this.onEventdateChange} value={this.state.eventdate}/>
+          <Label pointing>Your Date</Label>
            </Grid.Column>
            </Grid>
            <Grid>
-           <Grid.Column width={3}>
-           <Input type='text' style = {{ height: 30 , width : 300}}  value={this.state.eventdescriptioninputvalue} onChange= {(evt) => this.updateEventDescriptionInputValue(evt) } placeholder="Describe what kind of event you would like to hold" />
+           <Grid.Column width={5}>
+           <Input type='text' style = {{ height: 90, width : 327}} value={this.state.eventdescriptioninputvalue} onChange= {(evt) => this.updateEventDescriptionInputValue(evt) } placeholder="Describe what kind of event you would like to hold" />
            <Label pointing>Your Description</Label>
+
            </Grid.Column>
            </Grid>
            <br />
@@ -424,40 +450,45 @@ logout() {
             ? <ReactModal
              isOpen={this.state.showHelper}
              contentLabel="Minimal Modal Example"
+              style={customStyles}
+
+
              >
-                <div>
-                <Button style = {{height: 30 , width : 60}} onClick={this.closeHelper}>Close</Button>
+                <div className="helperModal">
+                <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeHelper}>Close</Button>
                 <br />
-                <Grid>
-                <Grid.Column width={3}>
+                <Grid columns={5}>
+                <Grid.Column width={5}>
                 <Input type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.helperlocation} />
                 <Label pointing>Your Location</Label>
                 </Grid.Column>
-                    <Grid.Column width={3}>
-                    <Button style = {{ height: 30 , width : 150, backgroundColor: 'powderblue'}} onClick={this.selectHelper}>Select Location</Button>
-                     </Grid.Column>
-                      <Grid.Column width={3}>
-                    <FontAwesome.FaMapMarker onClick = {this.helperlocate} style = {{ height: 50 , width : 150, backgroundColor: 'powderblue'}} type = 'button'/>
+                    <Grid.Column width={5}>
+                    <Button.Group>
+                    <Button style = {{ height: 30 , width : 150}} basic color='red' onClick={this.selectHelper}>Select Location</Button>
+
+                    <Button style = {{ height: 30 , width : 150}} basic color='red' onClick = {this.helperlocate}>Current Location</Button>
+                     </Button.Group>
                   </Grid.Column>
                 </Grid>
                </div>
-               <Grid>
-               <Grid.Column width={3}>
+               <Grid columns={5} >
+               <Grid.Column width={5}>
                <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter"/>
-               <Label pointing>Your Date</Label>
+               <Label pointing>Your Subject</Label>
                </Grid.Column>
-               <Grid.Column width={3}>
+               <Grid.Column width={5}>
                <DatePicker className='date' onChange={this.onHelperdateChange} value={this.state.helperdate}/>
+              <Label pointing>Your Date</Label>
                </Grid.Column>
                </Grid>
-               <Grid>
-               <Grid.Column width={3}>
-               <Input type='text' style = {{ height: 30 , width : 300}} placeholder="Describe what kind of help you would like" />
+               <Grid columns={5} >
+               <Grid.Column width={5}>
+               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" />
                <Label pointing>Your Description</Label>
                </Grid.Column>
                </Grid>
                <br />
-               <Button style = {{ height: 40 , width : 200}} color="blue" onClick={this.createHelper}>Create New Helper</Button>
+               <Button style = {{ height: 40 , width : 200}} color="red" onClick={this.createHelper}>Create New Helper</Button>
              </ReactModal>
              : null
          }

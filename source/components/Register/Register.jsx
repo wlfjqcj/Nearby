@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Input, Card } from 'semantic-ui-react'
+import { Button, Input, Card, Form, Checkbox } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
 import GoogleMapReact from 'google-map-react';
@@ -103,19 +103,31 @@ class Register extends Component {
             <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
             <form className="Register" action="/" onSubmit={this.onSubmit}>
                 <Card className="Register__content">
-                    <div>
+                    <div className='log'>
                         <h1>Register</h1>
-                        <Input label="Email" onChange={this.onChangeEmail} />
-                        <br/><br/>
-                        <Input label="Username" onChange={this.onChangeUsername} />
-                        <br/><br/>
-                        <Input label="Password" onChange={this.onChangePassword} />
-                        <br/><br/>
+
+                          <Form className="fm">
+                          <Form.Field>
+                          <label className="lb"><h5>Email</h5></label>
+                          <input placeholder='Enter Email' onChange={this.onChangeEmail}  />
+                        </Form.Field>
+                        <Form.Field>
+                          <label className="lb"><h5>Username</h5></label>
+                          <input placeholder='Enter Username'  onChange={this.onChangeUsername}/>
+                        </Form.Field>
+                        <Form.Field>
+                          <label className="lb"><h5>Password</h5></label>
+                          <input placeholder='Enter Password' type = 'password' onChange={this.onChangePassword}/>
+                        </Form.Field>
+                        <Form.Field>
+                          <Checkbox label='I agree to the Terms and Conditions' />
+                        </Form.Field>
+                        </Form>
+
                         <p>{this.state.message}</p>
                         <Input type="submit" />
-                        <h4>Already registered? Click <Link to="/login/login">here</Link> to Log-in!</h4>
+                        <h4>Click <Link to="/">here</Link> to Log-in!</h4>
 
-                        <Link to="/dashboard"><p>Go to Dashboard</p></Link>
                     </div>
                 </Card>
             </form>

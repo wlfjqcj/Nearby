@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Button, Input, Card } from 'semantic-ui-react'
+import { Button, Input, Card, Form, Checkbox } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter, browserHistory} from 'react-router'
 import styles from './styles.scss'
@@ -100,30 +100,49 @@ class Login extends React.Component {
 
     render() {
         return(
-            <GoogleMapReact style = {{ height: '100px' , width : '100px'}}  onChange={(e)=>this.handleChange(e)}
+        <div>
+            <GoogleMapReact style = {{ height: '100px' , opacity: 0.5, width : '100px'}}  onChange={(e)=>this.handleChange(e)}
               center={this.state.mapcenter}
               zoom={this.state.zoommap}
             >
-                <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
-            <form className="Login" action="/" onSubmit={this.onSubmit} >
-            <Card className="Login__content">
-                <div>
-                    <h1>Login</h1>
-                    <Input label="Email" onChange={this.onChangeEmail} />
-                    <br/><br/>
-                    <Input label="Password"  type = 'password' onChange={this.onChangePassword} />
-                    <br/><br/>
+                <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]} >
 
-                    <p>{this.state.message}</p>
-                    <Input type="submit" />
-                    <h4>No account yet? Click <Link to="/register">here</Link> to Register!</h4>
-
-                    <Link to="/dashboard"><p>Go to Dashboard</p></Link>
                 </div>
-            </Card>
-        </form>
-    </div>
     </GoogleMapReact>
+    <div>
+    <form className="Login" action="/" onSubmit={this.onSubmit} >
+    <Card className="Login__content">
+        <div className='log'>
+            <h1>Nearby</h1>
+
+            <Form className="fm">
+    <Form.Field>
+      <label className="lb"><h5>Email</h5></label>
+      <input placeholder='Enter Email' onChange={this.onChangeEmail}  />
+    </Form.Field>
+    <Form.Field>
+      <label className="lb"><h5>Password</h5></label>
+      <input placeholder='Enter Password' type = 'password' onChange={this.onChangePassword}/>
+    </Form.Field>
+    <Form.Field>
+      <Checkbox label='I agree to the Terms and Conditions' />
+    </Form.Field>
+  </Form>
+
+
+
+            <p>{this.state.message}</p>
+            <Input type="submit"/>
+            <h4>Click <Link to="/register">here</Link> to Register!</h4>
+
+
+        </div>
+    </Card>
+</form>
+
+
+</div>
+</div>
     )
 }
 }
