@@ -198,13 +198,13 @@ render() {
 		 <br />
 		 <br />
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
-	        <Card.Header>
-	          {this.state.helpername}
+	        <Card.Header className = 'helperheader'>
+	           {this.state.helpername} 
 	        </Card.Header>
-	        <Card.Meta>
+	        <Card.Meta className = 'helpertime'>
 	          {this.state.helpertime}
 	        </Card.Meta>
-	        <Card.Description>
+	        <Card.Description className = 'helperdisc'>
 	          {this.state.helperdescription}
 	        </Card.Description>
 	      </Card.Content>
@@ -212,9 +212,9 @@ render() {
 
 
 	              {!this.state.joinstatus ? (
-	        <Button className="helperbutton" basic onClick = {this.joinacti}>I can help</Button>
+	        <Button basic className="helperbutton"  onClick = {this.joinacti}>I can help</Button>
 	      ) : (
-	         <Button className="helperbutton" basic onClick = {this.exitacti}>Undo</Button>
+	         <Button basic className="helperbutton"  onClick = {this.exitacti}>Undo</Button>
 	      )
 	        }
 

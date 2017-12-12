@@ -135,7 +135,7 @@ constructor() {
 				return;
 			}
 
-			// var currentWidth = this.helperspan.offsetWidth;
+			var currentWidth = this.helperspan.offsetWidth;
 			newArray.push({
 				content: currentcontent,
 				id: ++this.lastId,
@@ -336,7 +336,7 @@ render() {
   const ct = "wait";
 	let imgid = 0;
 	let userid = -1;
-	
+
 	if (this.state.emojinumber > -1 && this.state.emojinumber <= -0.5)
 		var emoji = '😠'
 	else if (this.state.emojinumber > -0.5 && this.state.emojinumber <= 0)

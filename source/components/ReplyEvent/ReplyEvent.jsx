@@ -240,9 +240,9 @@ render() {
 
 
 	              {!this.state.joinstatus ? (
-	        <Button basic className="eventsbutton" onClick = {this.joinacti}>Join</Button>
+	        <Button basic className="eventsbutton" color = "blue" onClick = {this.joinacti}>Join</Button>
 	      ) : (
-	         <Button basic className="eventsbutton" onClick = {this.exitacti}>Decline</Button>
+	         <Button basic className="eventsbutton" color = "blue" onClick = {this.exitacti}>Decline</Button>
 	      )
 	        }
 

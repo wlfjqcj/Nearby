@@ -129,6 +129,8 @@ class SimpleMap extends Component {
             chatid:obj._id,
             chattopic:obj.text,
             location:[obj.latitude, obj.longitude],
+            subject:obj.username
+
         })
         if(obj.type == 'event') {
             var details = JSON.parse(obj.text)
@@ -179,6 +181,7 @@ class SimpleMap extends Component {
              chatid:obj._id,
              chattopic:obj.text,
              location:[obj.latitude, obj.longitude],
+             subject:obj.username
          })
          if(obj.type == 'event') {
              var details = JSON.parse(obj.text)
@@ -189,7 +192,8 @@ class SimpleMap extends Component {
                  eventdescription:details.description,
                  eventtime: details.date,
                  pati:obj.participants,
-                 joins:(obj.participants.indexOf(this.state.username) > -1)
+                 joins:(obj.participants.indexOf(this.state.username) > -1),
+                 subject:obj.username
              })
          }
          if(obj.type == 'helper') {
@@ -201,7 +205,8 @@ class SimpleMap extends Component {
                  helperdescription:details.description,
                  helpertime: details.date,
                  pati:obj.participants,
-                 joins:(obj.participants.indexOf(this.state.username) > -1)
+                 joins:(obj.participants.indexOf(this.state.username) > -1),
+                subject:obj.username
              })
          }
 
@@ -322,7 +327,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic}/>
+                            <PopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic} chatzhuren={v.subject} />
                         )
                       })
 
@@ -339,7 +344,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <EventPopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  />
+                            <EventPopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  eventzhuren={v.subject}/>
                         )
                       })
             }
@@ -355,7 +360,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <HelperPopupExampleMultiple  lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername}  />
+                            <HelperPopupExampleMultiple  lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername} helperzhuren={v.subject} />
                         )
                       })
             }
@@ -422,7 +427,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.popname}</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}><h4 className = "h4chat">@{this.props.chatzhuren} sends you a message: </h4>{this.props.popname}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} chatname={this.props.popname}/></div>
     </Popup.Content>
   </Popup>
@@ -475,7 +480,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.eventname}</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}><h4 className = "h4event">@{this.props.eventzhuren} invites you to join the activity: </h4>{this.props.eventname}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyEvent eventid={this.props.eventid} username = {this.props.username} eventname = {this.props.eventname} eventtime = {this.props.eventtime} eventdescription = {this.props.eventdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
@@ -528,7 +533,7 @@ return (
   >
      <Popup.Content>
 
-      <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.helpername}</p>
+      <p style={{display: this.state.visible ? 'none' : 'block' }}><h4 className = "h4helper">@{this.props.helperzhuren} needs help: </h4>{this.props.helpername}</p>
       <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyHelper helperid={this.props.helperid} username = {this.props.username} helpername = {this.props.helpername} helpertime = {this.props.helpertime} helperdescription = {this.props.helperdescription} participants = {this.props.participants} /></div>
     </Popup.Content>
   </Popup>
