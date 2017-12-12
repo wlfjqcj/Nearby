@@ -377,7 +377,9 @@ logout() {
         right                 : 'auto',
         bottom                : 'auto',
         marginRight           : '-50%',
-        transform             : 'translate(-50%, -50%)'
+        transform             : 'translate(-50%, -50%)',
+        padding               : '10px'
+        
       }
     };
 
@@ -396,16 +398,17 @@ logout() {
 
            <div>
 
-           <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeChat}>Close</Button>
+           <Button className="close"  floated='right' onClick={this.closeChat}>Close</Button>
            </div>
            <br />
            <br />
            <Grid>
            <Grid.Column width={5}>
            <Input type="text" style = {{ height: 30 , width : 300}} value={this.state.chatinputvalue} onChange= {(evt) => this.updateChatInputValue(evt) } placeholder="please enter"/>
+           <Label pointing>Your Text</Label>
            </Grid.Column>
            </Grid>
-           <Label pointing>Your Text</Label>
+           
             <br />
             <br />
              <Button onClick={() => this.createChat()} color="black">Create New Chat</Button>
@@ -420,17 +423,17 @@ logout() {
             contentLabel="Minimal Modal Example"
           style={customStyles} >
             <div>
-            <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeEvent}>Close</Button>
+            <Button className="close"  floated='right' onClick={this.closeEvent}>Close</Button>
             <br />
             <Grid>
             <Grid.Column width={5}>
-            <Input type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.eventlocation} />
+            <Input id="inputlocation" type='text' style = {{ height: 30 , width : 150}} placeholder={this.state.eventlocation} />
             <Label pointing>Your Location</Label>
             </Grid.Column>
                 <Grid.Column width={5}>
                 <Button.Group>
-                <Button style = {{ height: 30 , width : 150}} basic color='blue' onClick={this.selectEvent}>Select Location</Button>
-                <Button style = {{ height: 30 , width : 150}} basic color='blue' onClick = {this.eventlocate}>Current Location</Button>
+                <Button className="selectbutton"  basic onClick={this.selectEvent}>Select Location</Button>
+                <Button className="selectbutton" basic onClick = {this.eventlocate}>Current Location</Button>
                  </Button.Group>
               </Grid.Column>
             </Grid>
@@ -455,7 +458,7 @@ logout() {
            </Grid.Column>
            </Grid>
            <br />
-           <Button style = {{ height: 40 , width : 200}} color="blue" onClick={this.createEvent}>Create New Event</Button>
+           <Button id="createEvent" style = {{ height: 40 , width : 200}} color="blue" onClick={this.createEvent}>Create New Event</Button>
             </ReactModal>
             : null
         }
@@ -469,7 +472,7 @@ logout() {
 
              >
                 <div className="helperModal">
-                <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeHelper}>Close</Button>
+                <Button className="close"  floated='right' onClick={this.closeHelper}>Close</Button>
                 <br />
                 <Grid columns={5}>
                 <Grid.Column width={5}>
@@ -478,9 +481,9 @@ logout() {
                 </Grid.Column>
                     <Grid.Column width={5}>
                     <Button.Group>
-                    <Button style = {{ height: 30 , width : 150}} basic color='red' onClick={this.selectHelper}>Select Location</Button>
+                    <Button className="selectbuttonhelp" basic onClick={this.selectHelper}>Select Location</Button>
 
-                    <Button style = {{ height: 30 , width : 150}} basic color='red' onClick = {this.helperlocate}>Current Location</Button>
+                    <Button className="selectbuttonhelp" basic  onClick = {this.helperlocate}>Current Location</Button>
                      </Button.Group>
                   </Grid.Column>
                 </Grid>
@@ -492,6 +495,7 @@ logout() {
                </Grid.Column>
                <Grid.Column width={5}>
                <DatePicker className='date' onChange={this.onHelperdateChange} value={this.state.helperdate}/>
+               <br />
               <Label pointing>Your Date</Label>
                </Grid.Column>
                </Grid>
