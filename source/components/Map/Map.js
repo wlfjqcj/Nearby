@@ -366,7 +366,7 @@ class SimpleMap extends Component {
       <div className = 'submenu'>
         <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} userlocation = {this.state.mapcenter} />
       </div>
-      <div className = 'submenu' style={{transform: 'translateY(100%)' }}>
+      <div className = 'submenu' style={{ transform: 'translateY(100%)' }}>
         <Subfilter transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} userlocation = {this.state.mapcenter} setchat = {(s) => this.setchat(s)} sethelper = {(s) => this.sethelper(s)} setevent = {(s) => this.setevent(s)}/>
       </div>
 

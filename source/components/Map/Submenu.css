@@ -1,5 +1,5 @@
-.dropmenu{
-
+.submenu{
+    padding-top: 10px;
 }
 
 .ui.button{
@@ -17,20 +17,31 @@
 .ui.button:hover {
     background-color: white;
 }
+
+.dropmenu{
+    width: 200px;
+}
+#dropdownmenu{
+    width:200px;
+}
 #dropdownmenu:hover {
-    background-color: #cce2ff;
+    background-color: #8fb4ef;
 
     
 }
 
 .ui.button.dropdownbutton:hover{
-    background-color: #cce2ff;
+    background-color: #8fb4ef;
 }
 
 .ui.button.dropdownbutton:focus {
     background-color: white;
 }
 
+.ui.vertical.menu {
+    width: 100%;
+    height: 100%;
+}
 
 .date {
   z-index: 100;
@@ -39,4 +50,19 @@
 
 .helperModal{
 
+}
+
+.subfilter{
+    width:95px;
+    height:40px; 
+}
+
+#subfiltermenu{
+    height: 40px;
+    width: 95px;
+}
+#subfilter:hover {
+    background-color: #8fb4ef;
+
+    
 }

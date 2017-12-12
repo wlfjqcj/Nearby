@@ -65,13 +65,13 @@ showHelper(){
 
   getMenu() {
     return (
-  <Menu vertical>
-   <Dropdown item text='Menu'>
+  <Menu id="subfiltermenu" vertical>
+   <Dropdown id="subfilter" item text='Filter'>
      <Dropdown.Menu>
-       <Dropdown.Item><Button onClick = {this.showChat}>Show Chat</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.showEvent}>Show Event</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.showHelper}>Show Helper</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.showAll}>Show All</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.showChat}>Show Chat</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.showEvent}>Show Event</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.showHelper}>Show Helper</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.showAll}>Show All</Button></Dropdown.Item>
      </Dropdown.Menu>
    </Dropdown>
  </Menu>
@@ -116,7 +116,7 @@ showHelper(){
 
     return (
     <div>
-      <div className = 'dropmenu' >{this.getMenu()}</div>
+      <div className = 'subfilter' >{this.getMenu()}</div>
 
 
     </div>
