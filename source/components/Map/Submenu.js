@@ -45,7 +45,8 @@ class Submenu extends Component {
       helperinputvalue:null,
       eventinputvalue:null,
       chatinputvalue:null,
-      eventdescriptioninputvalue:'enter your description'
+      eventdescriptioninputvalue:null,
+      helperdescriptioninputvalue:null,
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -314,6 +315,14 @@ updateHelperInputValue(e) {
 }
 
 
+updateHelperDescriptionInputValue() {
+    this.setState({
+        helperdescriptioninputvalue: e.target.value
+    })
+
+}
+
+
 
 
 
@@ -486,7 +495,7 @@ logout() {
                </div>
                <Grid columns={5} >
                <Grid.Column width={5}>
-               <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter"/>
+               <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter" />
                <Label pointing>Your Subject</Label>
                </Grid.Column>
                <Grid.Column width={5}>
@@ -496,7 +505,7 @@ logout() {
                </Grid>
                <Grid columns={5} >
                <Grid.Column width={5}>
-               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" />
+               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" value = {this.state.helperdescriptioninputvalue} onChange= {(evt) => this.updateHelperDescriptionInputValue(evt) }/>
                <Label pointing>Your Description</Label>
                </Grid.Column>
                </Grid>
