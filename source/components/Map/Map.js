@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import ReactDOM from 'react-dom';
-import { Button, Menu, Popup} from 'semantic-ui-react';
+import { Button, Menu, Popup, Dropdown} from 'semantic-ui-react';
 import { Segment } from 'semantic-ui-react';
 import { Comment, Form, Header } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
@@ -14,6 +14,7 @@ import ReplyChat from '../Reply/ReplyChat.js';
 import ReplyEvent from '../ReplyEvent/ReplyEvent.jsx';
 import ReplyHelper from '../ReplyHelper/ReplyHelper.jsx';
 import Submenu from './Submenu.js';
+import Subfilter from './Subfilter.jsx';
 import styles from './Map.scss';
 //Coordinate convert utils
 import {
@@ -23,6 +24,7 @@ axios.defaults.withCredentials = true;
 const url = 'http://fengshuang.org:3000/api/post/all'
 const AnyReactComponent = ({ text }) => <div><Button></Button></div>;
 const TILE_SIZE = 256;
+
 class SimpleMap extends Component {
     constructor() {
         super();
@@ -30,6 +32,9 @@ class SimpleMap extends Component {
         this.handleChange = this.handleChange.bind(this);
         this.changeonclick = this.changeonclick.bind(this);
         this.logoutprops = this.logoutprops.bind(this);
+        this.setevent = this.setevent.bind(this);
+        this.sethelper = this.sethelper.bind(this);
+        this.setchat= this.setchat.bind(this);
         // this.additem = this.additem.bind(this);
         this.state = {
             zoommap:15,
@@ -45,7 +50,11 @@ class SimpleMap extends Component {
             chatobjects:[],
             eventobjects:[],
             helperobjects:[],
-            username:'haha'
+            username:'haha',
+            showchat:true,
+            showevent:true,
+            showhelper:true,
+
 
 
         }
@@ -76,6 +85,22 @@ class SimpleMap extends Component {
 
   }
 
+  setchat(s){
+      this.setState({
+          showchat:s
+      })
+
+  }
+  sethelper(s){
+      this.setState({
+          showhelper:s
+      })
+  }
+  setevent(s){
+      this.setState({
+          showevent:s
+      })
+  }
 
   // additem(item) {
   //     var messageloc = this.state.textlocation
@@ -290,14 +315,14 @@ class SimpleMap extends Component {
             {
                 this.state.chatobjects.map((v, index) => {
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
-
+                        if(this.state.showchat)
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
                             //     <div class="hint__content">
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic}/>
+                            <PopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic}/>
                         )
                       })
 
@@ -307,13 +332,14 @@ class SimpleMap extends Component {
 
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
                         // console.log(v)
+                        if(this.state.showevent)
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
                             //     <div class="hint__content">
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <EventPopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  />
+                            <EventPopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  />
                         )
                       })
             }
@@ -322,13 +348,14 @@ class SimpleMap extends Component {
 
                         // return <ReplyChat style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}></ReplyChat>;
                         // console.log(v)
+                        if(this.state.showhelper)
                         return (
                             // <div class="hint--html hint--top hint--hoverable" style = {{ height: 50 , width : 50, backgroundColor: 'powderblue'}} lat = {v[0]} lng = {v[1]} chatText = 'ssss' key = {index}>
                             //     <div class="hint__content">
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <HelperPopupExampleMultiple lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername}  />
+                            <HelperPopupExampleMultiple  lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername}  />
                         )
                       })
             }
@@ -339,6 +366,10 @@ class SimpleMap extends Component {
       <div className = 'submenu'>
         <Submenu transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} userlocation = {this.state.mapcenter} />
       </div>
+      <div className = 'submenu' style={{transform: 'translateY(100%)' }}>
+        <Subfilter transferMsg = {this.changeonclick} isvisible = {this.state.visible} logoutprocess = {(e) => this.logoutprops(e)} userlocation = {this.state.mapcenter} setchat = {(s) => this.setchat(s)} sethelper = {(s) => this.sethelper(s)} setevent = {(s) => this.setevent(s)}/>
+      </div>
+
 
 
     </div>
@@ -382,7 +413,9 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
+
     trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" onClick = {this.visiblechange}></img>}
+
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
@@ -432,7 +465,9 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
+
     trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" onClick = {this.visiblechange}></img>}
+
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
@@ -483,7 +518,9 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
+
     trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513013602/map-marker_1_x2dyph.svg" onClick = {this.visiblechange}></img>}
+
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
