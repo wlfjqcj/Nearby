@@ -391,10 +391,23 @@ logout() {
           ? <ReactModal
            isOpen={this.state.showChat}
            contentLabel="Minimal Modal Example"
+           style={customStyles}
            >
-             <Button onClick={this.closeChat}>Close Modal</Button>
-             <Input type="text" value={this.state.chatinputvalue} onChange= {(evt) => this.updateChatInputValue(evt) }/>
-             <Button onClick={() => this.createChat()}>Create New Chat</Button>
+           <div>
+
+           <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeChat}>Close</Button>
+           </div>
+           <br />
+           <br />
+           <Grid>
+           <Grid.Column width={5}>
+           <Input type="text" style = {{ height: 30 , width : 300}} value={this.state.chatinputvalue} onChange= {(evt) => this.updateChatInputValue(evt) } placeholder="please enter"/>
+           </Grid.Column>
+           </Grid>
+           <Label pointing>Your Text</Label>
+            <br />
+            <br />
+             <Button onClick={() => this.createChat()} color="black">Create New Chat</Button>
 
            </ReactModal>
            : null
