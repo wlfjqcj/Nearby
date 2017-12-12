@@ -20,13 +20,11 @@ require('./styles/main.scss');
 render(
 <Router>
   <div>
-     <Route exact path = "/" component = {Home}/>
+     <Route exact path = "/" component = {Login}/>
      <Route exact path = "/map" component = {SimpleMap}/>
      <Route exact path = "/new_chat" component = {NewChat} />
      <Route exact path = "/reply_chat" component = {ReplyChat} />
-     <Route exact path = "/login" component = {loginprocess} />
-     <Route exact path = "/login/login" component = {Login} />
-     <Route exact path = "/login/register" component = {Register} />
+     <Route exact path = "/register" component = {Register} />
   </div>
 </Router>,
 document.getElementById('app')

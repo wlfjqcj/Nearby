@@ -2,16 +2,20 @@ import React, { Component } from 'react'
 import { Button, Input, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import axios from 'axios'
-
+import GoogleMapReact from 'google-map-react';
+import GoogleMap from 'google-map-react';
 import styles from './styles.scss'
 
-const loginurl = "fengshuang.org:3000"
+const loginurl = "http://fengshuang.org:3000"
 class Register extends Component {
     constructor() {
         super();
 
         this.state = {
+            zoommap:15,
+            mapcenter:[40.11683643859134,-88.24157047271729],
             user: {
+
                 username: '',
                 password: '',
                 email: ''
@@ -79,8 +83,24 @@ class Register extends Component {
         })
     }
 
+
+    handleChange(e) {
+        this.setState({
+            zoommap:e.zoom,
+            // mapcenter:e.center
+        })
+
+    }
+
+
+
     render() {
         return(
+            <GoogleMapReact style = {{ height: '100px' , width : '100px'}}  onChange={(e)=>this.handleChange(e)}
+              center={this.state.mapcenter}
+              zoom={this.state.zoommap}
+            >
+            <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
             <form className="Register" action="/" onSubmit={this.onSubmit}>
                 <Card className="Register__content">
                     <div>
@@ -99,6 +119,8 @@ class Register extends Component {
                     </div>
                 </Card>
             </form>
+            </div>
+            </GoogleMapReact>
     )
 }
 }

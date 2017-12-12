@@ -3,6 +3,8 @@ import { Button, Input, Card } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
 import { withRouter, browserHistory} from 'react-router'
 import styles from './styles.scss'
+import GoogleMapReact from 'google-map-react';
+import GoogleMap from 'google-map-react';
 import PropTypes from "prop-types";
 const loginurl = 'http://fengshuang.org:3000';
 class Login extends React.Component {
@@ -14,6 +16,8 @@ class Login extends React.Component {
 
 
         this.state = {
+            zoommap:15,
+            mapcenter:[40.11683643859134,-88.24157047271729],
             user: {
                 password: '',
                 email: ''
@@ -58,6 +62,16 @@ class Login extends React.Component {
         xhr.send(formData);
     }
 
+
+
+
+    componentWillMount() {
+        if (localStorage.getItem('username'))
+            this.props.history.push("/map");
+
+
+    }
+
     onChangeEmail(e) {
         const user = this.state.user;
         user.email = e.target.value;
@@ -74,9 +88,24 @@ class Login extends React.Component {
         })
     }
 
+
+    handleChange(e) {
+        this.setState({
+            zoommap:e.zoom,
+            boundsmap:e.bounds,
+
+        })
+
+    }
+
     render() {
         return(
-            <form className="Login" action="/" onSubmit={this.onSubmit}>
+            <GoogleMapReact style = {{ height: '100px' , width : '100px'}}  onChange={(e)=>this.handleChange(e)}
+              center={this.state.mapcenter}
+              zoom={this.state.zoommap}
+            >
+                <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
+            <form className="Login" action="/" onSubmit={this.onSubmit} >
             <Card className="Login__content">
                 <div>
                     <h1>Login</h1>
@@ -87,12 +116,14 @@ class Login extends React.Component {
 
                     <p>{this.state.message}</p>
                     <Input type="submit" />
-                    <h4>No account yet? Click <Link to="/login/register">here</Link> to Register!</h4>
+                    <h4>No account yet? Click <Link to="/register">here</Link> to Register!</h4>
 
                     <Link to="/dashboard"><p>Go to Dashboard</p></Link>
                 </div>
             </Card>
         </form>
+    </div>
+    </GoogleMapReact>
     )
 }
 }

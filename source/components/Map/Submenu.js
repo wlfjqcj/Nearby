@@ -312,7 +312,8 @@ logout() {
  .then( (response) => {
      console.log(response)
      this.props.logoutprocess('hah');
-
+     localStorage.setItem('username', '');
+     this.props.history.push("/");
  }).catch(function (error) {
 
  });
