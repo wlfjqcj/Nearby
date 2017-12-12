@@ -163,6 +163,9 @@ render() {
 	return (
 		<Card id="helper">
 		 <Card.Content>
+		 <Button className="close"  floated='right' >x</Button>
+		 <br />
+		 <br />
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
 	        <Card.Header>
 	          {this.state.helpername}

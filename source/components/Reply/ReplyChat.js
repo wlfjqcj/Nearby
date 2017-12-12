@@ -258,9 +258,14 @@ imgId(){
 
 render() {
   const ct = "wait";
-	let imgid = 0
+	let imgid = 0;
+	let userid = -1;
   return (
+
     <div className = "kuang">
+		<Button className="close"  floated='right' >x</Button>
+		<br />
+		<br />
     <div id="chattitle">
 		{emojify('Sentiment Analysis:wink: 😸 :D  ^__^')}
 		<Segment raised>
@@ -276,7 +281,7 @@ render() {
     <List.Item>
       <Image avatar src={this.state.currentimg[imgid = imgid + 1]} />
       <List.Content>
-        <List.Header as='a'>Rachael</List.Header>
+        <List.Header as='a'>{listitem.username}</List.Header>
       <List.Description className='kuangDes'>{listitem.text}</List.Description>
       </List.Content>
     </List.Item>
