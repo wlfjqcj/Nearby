@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
 import { Button, Menu } from 'semantic-ui-react'
 import { Link } from 'react-router-dom'
-import { Segment } from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
-import { Comment, Form, Header } from 'semantic-ui-react'
+import { Comment, Form, Header, Segment} from 'semantic-ui-react'
+import { Card, Feed, List, Image,Input } from 'semantic-ui-react'
 import styles from './ReplyChat.scss';
+import {emojify} from 'react-emojione';
 axios.defaults.withCredentials = true;
 const url = 'http://fengshuang.org:3000/api/post/id/'
 const posturl = 'http://fengshuang.org:3000/api/post/reply/'
@@ -72,6 +73,7 @@ constructor() {
 		this.handleKeypress = this.handleKeypress.bind(this);
 		this.handleBlur = this.handleBlur.bind(this);
 		this.handleClick = this.handleClick.bind(this);
+		this.imgId = this.imgId.bind(this);
 
 		this.helperspan = null;
 
@@ -80,7 +82,31 @@ constructor() {
 			width: 100,
 			myItems: [],
 			secondsElapsed:0,
-			mainchat:''
+			mainchat:'',
+			currentimg: [
+				"https://semantic-ui.com/images/avatar/large/elliot.jpg",
+				"https://semantic-ui.com/images/avatar/large/joe.jpg",
+				"http://bain.design/wp-content/uploads/2014/09/People-Avatar-Set-Rectangular-02.jpg",
+				"https://semantic-ui.com/images/avatar/large/ade.jpg",
+				"http://bain.design/wp-content/uploads/2013/03/People-Avatar-Set-Rectangular-13-328x328.jpg",
+				"https://semantic-ui.com/images/avatar/large/matt.jpg",
+				"http://smtb.cbl-web.com/images/avatar/big/stevie.jpg",
+				"https://semantic-ui.com/images/avatar2/large/eve.png",
+				"http://bain.design/wp-content/uploads/2013/03/People-Avatar-Set-Rectangular-04.jpg",
+				"https://cdn2.iconfinder.com/data/icons/avatar-2/512/seby_user_face-512.png",
+				"https://cdn2.iconfinder.com/data/icons/avatar-2/512/carla_girl-512.png",
+				"https://cdn2.iconfinder.com/data/icons/avatar-2/512/laly_face_woman-512.png",
+				"https://cdn0.iconfinder.com/data/icons/user-pictures/100/supportmale-2-512.png",
+				"https://cdn.jsdelivr.net/npm/semantic-ui@2.2.11/examples/assets/images/avatar/tom.jpg",
+				"https://www.tofugu.com/images/about/people/avatar-darin-richardson-1504fbcc.jpg",
+				"https://image.flaticon.com/icons/png/512/163/163803.png",
+				"https://image.flaticon.com/icons/png/512/163/163841.png",
+				"https://www.maestromusicschool.com/wp-content/uploads/2017/02/boy-18.png",
+				"https://www.small-improvements.com/images/characters/mary.svg"
+
+			],
+			iid : 0,
+		  replyUserName: null
 		};
 		this.lastId = -1;
 	}
@@ -156,19 +182,16 @@ constructor() {
 		}
 	}
 
-	makeAddedList() {
-
-		const elements =  this.state.myItems.map((listitem, index) => (
-			<Button
-				onClick={this.handleClick}
-			>
-				{listitem.text}
-
-			</Button>
-		));
-		return elements
-
-	}
+	// makeAddedList() {
+  //
+	// 	const elements =  this.state.myItems.map((listitem, index) => (
+  //
+	// 			{listitem.text}
+  //
+	// 	));
+	// 	return elements
+  //
+	// }
 	componentDidMount() {
 	    this.interval = setInterval(() => this.tick(), 1000);
 	 }
@@ -186,7 +209,7 @@ constructor() {
 		this.setState({
 			myItems: message,
 			mainchat:response.data.data.text
-		})
+		 })
 		})
 		.catch(function (error) {
 		  console.log(error);
@@ -208,7 +231,7 @@ constructor() {
 	 })
 	 this.setState({
 		 myItems: message,
-		 mainchat:response.data.data.text
+		 mainchat:response.data.data.text,
 	 })
 
   })
@@ -222,35 +245,72 @@ constructor() {
 
       }));
     }
+imgId(){
+   const id = this.state.iid;
+	this.setState({
+		iid: id + 1
+
+	});
+	return this.state.iid
+	console.log(this.state.iid)
+}
 
 
 render() {
   const ct = "wait";
+	let imgid = 0
   return (
     <div className = "kuang">
-    <div id="chattitle"><p>{ct}</p>
+    <div id="chattitle">
+		{emojify('Sentiment Analysis:wink: 😸 :D  ^__^')}
+		<Segment raised>
+  <p>@{this.props.username}: {this.props.chatname}</p>
+  </Segment>
+	</div>
+	<br />
+
     <div id="chatlist">
-    {this.makeAddedList()}
+		{this.state.myItems.map((listitem, index) => (
+		<List horizontal>
+
+    <List.Item>
+      <Image avatar src={this.state.currentimg[imgid = imgid + 1]} />
+      <List.Content>
+        <List.Header as='a'>Rachael</List.Header>
+      <List.Description className='kuangDes'>{listitem.text}</List.Description>
+      </List.Content>
+    </List.Item>
+
+
+		</List>
+
+
+
+		))}
     </div>
-    <input
-					id="add"
-					type="text"
-					name="initvalue"
-					autoComplete="off"
-				  maxLength="70"
-					onFocus={this.handleFocus}
-					onChange={this.handleChange}
-					onKeyPress={this.handleKeypress}
-					onBlur={this.handleBlur}
-					value={this.state.content_add}
-          placeholder = "comment"
-				/>
+
+
+		<div className='inputkuang'>
+		<Input id="add"
+		type="text"
+		name="initvalue"
+		autoComplete="off"
+		maxLength="300"
+		onFocus={this.handleFocus}
+		onChange={this.handleChange}
+		onKeyPress={this.handleKeypress}
+		onBlur={this.handleBlur}
+		value={this.state.content_add}
+		placeholder = "comment" />
+
+				<br />
 
 				<div id="helperspan" ref={el => (this.helperspan = el)}>
 
 				</div>
+				</div>
     </div>
-    </div>
+
   )
 
 }

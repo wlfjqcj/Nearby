@@ -423,7 +423,7 @@ return (
      <Popup.Content>
 
       <p style={{display: this.state.visible ? 'none' : 'block' }}>{this.props.popname}</p>
-      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} /></div>
+      <div style={{display: this.state.visible ? 'block' : 'none' }}><ReplyChat chatid={this.props.chatid} username = {this.props.username} chatname={this.props.popname}/></div>
     </Popup.Content>
   </Popup>
 )}
@@ -519,7 +519,7 @@ render()
 return (
   <Popup
 
-    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513013602/map-marker_1_x2dyph.svg" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513058520/pin_sq_BrR-01_zelnta.svg" onClick = {this.visiblechange}></img>}
 
     on={['hover']}
     hoverable

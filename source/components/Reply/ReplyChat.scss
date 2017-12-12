@@ -4,26 +4,17 @@
 }
 .kuang {
   word-wrap: break-word;
-  width: 200px;
+  width: 300px;
   list-style-type:none;
   padding-bottom: 20px;
 }
-#add{
-	color: #b0bec5;
-    text-align: center;
-    position: absolute;
-    bottom: 10%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    font-style: 12px;
-}
-#chattitle{
-	color: black;
-	text-align: center;
-	font-size: 16px;
-	text-shadow: 1px 0 0 black;
-}
 
-#chatlist{
-	padding-bottom: 15px;
+.kuangDes{
+  width: 250px;
+}
+#id {
+  width: 250px;
+}
+#helperspan {
+  width: 250px;
 }

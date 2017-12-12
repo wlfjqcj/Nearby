@@ -39,6 +39,7 @@
     "react-bootstrap": "^0.31.5",
     "react-date-picker": "^6.4.0",
     "react-dom": "^15.4.2",
+    "react-emojione": "^5.0.0",
     "react-icons": "^2.2.7",
     "react-modal": "^3.1.7",
     "react-router": "^4.0.0",

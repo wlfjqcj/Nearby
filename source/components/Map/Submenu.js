@@ -45,8 +45,7 @@ class Submenu extends Component {
       helperinputvalue:null,
       eventinputvalue:null,
       chatinputvalue:null,
-      eventdescriptioninputvalue:null,
-      helperdescriptioninputvalue:null,
+      eventdescriptioninputvalue:'enter your description'
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -315,14 +314,6 @@ updateHelperInputValue(e) {
 }
 
 
-updateHelperDescriptionInputValue() {
-    this.setState({
-        helperdescriptioninputvalue: e.target.value
-    })
-
-}
-
-
 
 
 
@@ -342,12 +333,12 @@ logout() {
   getMenu() {
     return (
   <Menu vertical>
-   <Dropdown item id="dropdownmenu" text='Menu'>
+   <Dropdown item text='Menu'>
      <Dropdown.Menu>
-       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
-       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
-       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
-       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.logout}>Logout</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
+       <Dropdown.Item><Button onClick = {this.logout}>Logout</Button></Dropdown.Item>
      </Dropdown.Menu>
    </Dropdown>
  </Menu>
@@ -402,6 +393,7 @@ logout() {
            contentLabel="Minimal Modal Example"
            style={customStyles}
            >
+
            <div>
 
            <Button style = {{height: 30 , width : 60}} floated='right' onClick={this.closeChat}>Close</Button>
@@ -495,7 +487,7 @@ logout() {
                </div>
                <Grid columns={5} >
                <Grid.Column width={5}>
-               <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter" />
+               <Input type="text" style = {{ height: 30 , width : 150}} value={this.state.helperinputvalue} onChange= {(evt) => this.updateHelperInputValue(evt)} placeholder="please enter"/>
                <Label pointing>Your Subject</Label>
                </Grid.Column>
                <Grid.Column width={5}>
@@ -505,7 +497,7 @@ logout() {
                </Grid>
                <Grid columns={5} >
                <Grid.Column width={5}>
-               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" value = {this.state.helperdescriptioninputvalue} onChange= {(evt) => this.updateHelperDescriptionInputValue(evt) }/>
+               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" />
                <Label pointing>Your Description</Label>
                </Grid.Column>
                </Grid>
