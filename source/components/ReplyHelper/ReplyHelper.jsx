@@ -5,7 +5,7 @@ import { Segment } from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
-
+import styles from './ReplyHelper.scss';
 axios.defaults.withCredentials = true;
 
 const url = 'http://fengshuang.org:3000/api/post/id/'
@@ -161,7 +161,7 @@ exitacti(){
 
 render() {
 	return (
-		<Card>
+		<Card id="helper">
 		 <Card.Content>
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
 	        <Card.Header>
@@ -178,9 +178,9 @@ render() {
 
 
 	              {!this.state.joinstatus ? (
-	        <Button basic color='green' onClick = {this.joinacti}>Join</Button>
+	        <Button className="helperbutton" basic onClick = {this.joinacti}>I can help</Button>
 	      ) : (
-	         <Button basic color='red' onClick = {this.exitacti}>Decline</Button>
+	         <Button className="helperbutton" basic onClick = {this.exitacti}>Undo</Button>
 	      )
 	        }
 

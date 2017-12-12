@@ -158,7 +158,7 @@ exitacti(){
 
 render() {
 	return (
-		<Card>
+		<Card id="events">
 		 <Card.Content>
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
 	        <Card.Header>
@@ -175,9 +175,9 @@ render() {
 
 
 	              {!this.state.joinstatus ? (
-	        <Button basic id="join" onClick = {this.joinacti}>Join</Button>
+	        <Button basic className="eventsbutton" onClick = {this.joinacti}>Join</Button>
 	      ) : (
-	         <Button basic id="decline" onClick = {this.exitacti}>Decline</Button>
+	         <Button basic className="eventsbutton" onClick = {this.exitacti}>Decline</Button>
 	      )
 	        }
 

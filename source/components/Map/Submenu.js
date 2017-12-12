@@ -489,9 +489,9 @@ logout() {
                 </Grid.Column>
                     <Grid.Column width={5}>
                     <Button.Group>
-                    <Button className="selectbutton" basic onClick={this.selectHelper}>Select Location</Button>
+                    <Button className="selectbuttonhelp" basic onClick={this.selectHelper}>Select Location</Button>
 
-                    <Button className="selectbutton" basic  onClick = {this.helperlocate}>Current Location</Button>
+                    <Button className="selectbuttonhelp" basic  onClick = {this.helperlocate}>Current Location</Button>
                      </Button.Group>
                   </Grid.Column>
                 </Grid>
