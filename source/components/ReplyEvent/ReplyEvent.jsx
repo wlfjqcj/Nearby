@@ -5,7 +5,7 @@ import { Segment } from 'semantic-ui-react'
 import axios from 'axios'
 import ReactModal from 'react-modal'
 import { Comment, Form, Header } from 'semantic-ui-react'
-
+import styles from './ReplyEvent.scss';
 axios.defaults.withCredentials = true;
 
 const url = 'http://fengshuang.org:3000/api/post/id/'
@@ -175,9 +175,9 @@ render() {
 
 
 	              {!this.state.joinstatus ? (
-	        <Button basic color='green' onClick = {this.joinacti}>Join</Button>
+	        <Button basic id="join" onClick = {this.joinacti}>Join</Button>
 	      ) : (
-	         <Button basic color='red' onClick = {this.exitacti}>Decline</Button>
+	         <Button basic id="decline" onClick = {this.exitacti}>Decline</Button>
 	      )
 	        }
 

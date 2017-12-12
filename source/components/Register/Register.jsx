@@ -125,7 +125,7 @@ class Register extends Component {
                         </Form>
 
                         <p>{this.state.message}</p>
-                        <Input type="submit" />
+                        <Input id="submitbutton" type="submit" />
                         <h4>Click <Link to="/">here</Link> to Log-in!</h4>
 
                     </div>

@@ -228,8 +228,8 @@ render() {
   const ct = "wait";
   return (
     <div className = "kuang">
-    <div><p>{ct}</p>
-    <div>
+    <div id="chattitle"><p>{ct}</p>
+    <div id="chatlist">
     {this.makeAddedList()}
     </div>
     <input

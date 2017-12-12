@@ -5,21 +5,33 @@
 .ui.button{
 
 	background-color:white;
-
+	text-decoration-color: black;
     display: block;
     width: 100%;
     text-align: left;
     text-decoration-color: white;
 
 	}
+
+
 .ui.button:hover {
+    background-color: white;
+}
+#dropdownmenu:hover {
     background-color: #cce2ff;
 
+    
 }
 
-.ui.button:focus {
-	background-color: white;
+.ui.button.dropdownbutton:hover{
+    background-color: #cce2ff;
 }
+
+.ui.button.dropdownbutton:focus {
+    background-color: white;
+}
+
+
 .date {
   z-index: 100;
 

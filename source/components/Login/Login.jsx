@@ -101,7 +101,7 @@ class Login extends React.Component {
     render() {
         return(
         <div>
-            <GoogleMapReact style = {{ height: '100px' , opacity: 0.5, width : '100px'}}  onChange={(e)=>this.handleChange(e)}
+            <GoogleMapReact style = {{ height: '100px' , opacity: 0.3, width : '100px'}}  onChange={(e)=>this.handleChange(e)}
               center={this.state.mapcenter}
               zoom={this.state.zoommap}
             >
@@ -125,14 +125,14 @@ class Login extends React.Component {
       <input placeholder='Enter Password' type = 'password' onChange={this.onChangePassword}/>
     </Form.Field>
     <Form.Field>
-      <Checkbox label='I agree to the Terms and Conditions' />
+      <Checkbox id ="checkboxlabel" label='I agree to the Terms and Conditions' />
     </Form.Field>
   </Form>
 
 
 
             <p>{this.state.message}</p>
-            <Input type="submit"/>
+            <Input id="submitbutton" type="submit"/>
             <h4>Click <Link to="/register">here</Link> to Register!</h4>
 
 

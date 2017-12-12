@@ -333,12 +333,12 @@ logout() {
   getMenu() {
     return (
   <Menu vertical>
-   <Dropdown item text='Menu'>
+   <Dropdown item id="dropdownmenu" text='Menu'>
      <Dropdown.Menu>
-       <Dropdown.Item><Button onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
-       <Dropdown.Item><Button onClick = {this.logout}>Logout</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildChat}>New Chat</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildEvent}>New Event</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.buildHelper}>New Helper</Button></Dropdown.Item>
+       <Dropdown.Item><Button className="dropdownbutton" onClick = {this.logout}>Logout</Button></Dropdown.Item>
      </Dropdown.Menu>
    </Dropdown>
  </Menu>

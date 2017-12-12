@@ -7,7 +7,7 @@ class NewChat extends Component {
 
     render() {
         return(
-          <div className="NewChat">
+          <div id="newchat" className="NewChat">
              <h1>Test Router</h1>
              <br />
               <Link to="/Map">

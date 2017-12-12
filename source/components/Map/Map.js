@@ -382,7 +382,7 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
-    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" onClick = {this.visiblechange}></img>}
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
@@ -432,7 +432,7 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
-    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" onClick = {this.visiblechange}></img>}
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
@@ -483,7 +483,7 @@ render()
   const ct = "wait for respond";
 return (
   <Popup
-    trigger={<img src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513013602/map-marker_1_x2dyph.svg" height="42" width="42" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513013602/map-marker_1_x2dyph.svg" onClick = {this.visiblechange}></img>}
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
