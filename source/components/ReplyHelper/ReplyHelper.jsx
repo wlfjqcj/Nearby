@@ -194,12 +194,12 @@ render() {
 		(
 		<Card id="helper">
 		 <Card.Content>
-		 <Button className="close"  floated='right' onClick = {this.deletepost}>x</Button>
+		 <button className="close" onClick = {this.deletepost}>Delete</button>
 		 <br />
 		 <br />
 	        <Image floated='right' size='mini' src='http://res.cloudinary.com/dyghmcqvx/image/upload/v1512973914/WechatIMG18871_zbdkgi.png' />
 	        <Card.Header className = 'helperheader'>
-	           {this.state.helpername} 
+	           {this.state.helpername}
 	        </Card.Header>
 	        <Card.Meta className = 'helpertime'>
 	          {this.state.helpertime}
