@@ -297,7 +297,7 @@ render() {
 	           {this.state.helpername}
 	        </Card.Header>
 	        <Card.Meta className = 'helpertime'>
-	          {this.state.helpertime}
+	          {this.state.helpertime.substring(0,16)}
 	        </Card.Meta>
 	        <Card.Description className = 'helperdisc'>
 	          {this.state.helperdescription}

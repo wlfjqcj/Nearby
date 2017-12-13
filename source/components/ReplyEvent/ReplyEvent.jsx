@@ -30,6 +30,7 @@ constructor() {
             joinstatus: true,
             myItems:[],
 			loading:false,
+			paritici:[],
 			username:localStorage.getItem("username")
 		};
 	}
@@ -68,7 +69,8 @@ constructor() {
 			 myItems: message,
 			 joinstatus:(parti.indexOf(this.state.username) > -1),
 			 loading:true,
-			 eventsubject:response.data.data.username
+			 eventsubject:response.data.data.username,
+			 paritici:parti
 		 })
 		 })
 		 .catch(function (error) {
@@ -108,7 +110,8 @@ constructor() {
             myItems: message,
 			joinstatus:(parti.indexOf(this.state.username) > -1),
 			loading:true,
-			eventsubject:response.data.data.username
+			eventsubject:response.data.data.username,
+			paritici:parti
         })
 		})
 		.catch(function (error) {
@@ -127,6 +130,7 @@ constructor() {
             eventdescription:detailed.description,
             eventtime:detailed.date,
             eventname:detailed.name,
+
         })
         response.data.data.replies.map((obj) => {
 			message.push(obj.text)
@@ -138,7 +142,8 @@ constructor() {
             myItems: message,
 			joinstatus:(parti.indexOf(this.state.username) > -1),
 			loading:true,
-			eventsubject:response.data.data.username
+			eventsubject:response.data.data.username,
+			paritici:parti
         })
   })
   .catch(function (error) {
@@ -215,6 +220,15 @@ deletepost() {
 
 
 render() {
+
+	var joinpeople = ''
+	this.state.paritici.map((v,idx) => {
+		if (idx < 2)
+		joinpeople += (v + ',')
+	})
+	joinpeople += 'also join this event'
+	joinpeople += ('(' + this.state.paritici.length.toString() + ' people in total)') 
+
 	return (
 
 		<div>
@@ -231,11 +245,17 @@ render() {
 	          {this.state.eventname}
 	        </Card.Header>
 	        <Card.Meta>
-	          {this.state.eventtime}
+	          {this.state.eventtime.substring(0,16)}
 	        </Card.Meta>
-	        <Card.Description>
+			<Card.Description>
 	          {this.state.eventdescription}
+
 	        </Card.Description>
+			<br></br>
+	        <Card.Description>
+	      	{joinpeople}
+	        </Card.Description>
+
 	      </Card.Content>
 	      <Card.Content extra>
 
