@@ -313,19 +313,19 @@ render() {
 	</Card>
 
 
-{this.state.abletoview? (
+{(this.state.abletoview|| (this.props.username == this.state.helpersubject))? (
 	<div>
-	{(!this.state.joinstatus || (this.props.username == this.state.helpersubject)) ? (
+	{((!this.state.joinstatus )|| (this.props.username == this.state.helpersubject)) ? (
 <Button basic className="helperbutton"  onClick = {this.joinacti}>I can help</Button>
 ) : (
 <Button basic className="helperbutton"  onClick = {this.exitacti}>Undo</Button>
 )
 }
-{(!this.state.openstatus || (this.props.username == this.state.helpersubject))? (
+{((!this.state.openstatus) || (this.props.username == this.state.helpersubject))? (
 	<div>
 	<div id="chatlist">
 		{this.state.myItems.map((listitem, index) => {
-			if (this.props.username == listitem.username)
+			if (this.props.username == listitem.username ||(this.props.username == this.state.helpersubject))
 		return (
 		<List horizontal>
 
