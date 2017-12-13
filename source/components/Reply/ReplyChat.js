@@ -146,7 +146,7 @@ constructor() {
 				content_add: "",
 				loading:true
 			});
-			axios.post(posturl  +  this.props.helperid, {
+			axios.post(posturl  +  this.props.chatid, {
     			text:currentcontent
   			},{withCredentials:true})
 			.then(function (response) {
@@ -204,7 +204,7 @@ constructor() {
 
 	componentDidUpdate(prevProps, prevState) {
 		if (prevState.content_add != this.state.content_add) {
-			// const helperWidth = this.helperspan.offsetWidth;
+			const helperWidth = this.helperspan.offsetWidth;
 			this.setState({ width: Math.max(50, helperWidth + 1) });
 		}
 	}
