@@ -96,11 +96,16 @@ class Register extends Component {
 
     render() {
         return(
-            <GoogleMapReact style = {{ height: '100px' , width : '100px'}}  onChange={(e)=>this.handleChange(e)}
+        <div>
+            <GoogleMapReact style = {{ height: '100px' , width : '100px',opacity: 0.3}}  onChange={(e)=>this.handleChange(e)}
               center={this.state.mapcenter}
               zoom={this.state.zoommap}
             >
             <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
+
+            </div>
+            </GoogleMapReact>
+            <div>
             <form className="Register" action="/" onSubmit={this.onSubmit}>
                 <Card className="Register__content">
                     <div className='log'>
@@ -132,7 +137,7 @@ class Register extends Component {
                 </Card>
             </form>
             </div>
-            </GoogleMapReact>
+            </div>
     )
 }
 }
