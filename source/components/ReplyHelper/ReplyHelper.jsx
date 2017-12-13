@@ -284,7 +284,7 @@ render() {
 	return (
 
 		<div>
-			{this.state.loading?
+			{(this.state.loading|| (this.props.username == this.state.helpersubject))?
 		(
 			<div>
 		<Card id="helper">
@@ -315,16 +315,18 @@ render() {
 
 {this.state.abletoview? (
 	<div>
-	{!this.state.joinstatus ? (
+	{(!this.state.joinstatus || (this.props.username == this.state.helpersubject)) ? (
 <Button basic className="helperbutton"  onClick = {this.joinacti}>I can help</Button>
 ) : (
 <Button basic className="helperbutton"  onClick = {this.exitacti}>Undo</Button>
 )
 }
-{!this.state.openstatus ? (
+{(!this.state.openstatus || (this.props.username == this.state.helpersubject))? (
 	<div>
 	<div id="chatlist">
-		{this.state.myItems.map((listitem, index) => (
+		{this.state.myItems.map((listitem, index) => {
+			if (this.props.username == listitem.username)
+		return (
 		<List horizontal>
 
     <List.Item>
@@ -338,9 +340,9 @@ render() {
 
 		</List>
 
+)
 
-
-		))}
+	})}
     </div>		<div className='inputkuang'>
 			<Input id="add"
 			type="text"
