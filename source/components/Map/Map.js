@@ -38,6 +38,7 @@ class SimpleMap extends Component {
         // this.additem = this.additem.bind(this);
         this.state = {
             zoommap:15,
+            centered:[40.11683643859134,-88.24157047271729],
             mapcenter:[40.11683643859134,-88.24157047271729],
             boundsmap:[],
             msg: "start",
@@ -253,7 +254,9 @@ class SimpleMap extends Component {
    }
 
   handleChange(e) {
+      console.log(e)
       this.setState({
+          centered:e.center,
           zoommap:e.zoom,
           boundsmap:e.bounds
       })
@@ -327,7 +330,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <PopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic} chatzhuren={v.subject} />
+                            <PopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index} chatid = {v.chatid} username = {this.state.username} userlocation = {this.state.mapcenter} popname = {v.chattopic} chatzhuren={v.subject} centered = {this.state.centered}/>
                         )
                       })
 
@@ -344,7 +347,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <EventPopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  eventzhuren={v.subject}/>
+                            <EventPopupExampleMultiple   lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} eventid = {v.eventid} username = {this.state.username} userlocation = {this.state.mapcenter} eventname = {v.eventname}  eventzhuren={v.subject} centered = {this.state.centered}/>
                         )
                       })
             }
@@ -360,7 +363,7 @@ class SimpleMap extends Component {
                             //         <p>hahahah</p>
                             //     </div>
                             //     </div>
-                            <HelperPopupExampleMultiple  lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername} helperzhuren={v.subject} />
+                            <HelperPopupExampleMultiple  lat = {v.location[0]} lng = {v.location[1]} key = {index + 100} helperid = {v.helperid} username = {this.state.username} userlocation = {this.state.mapcenter} helpername = {v.helpername} helperzhuren={v.subject} centered = {this.state.centered}/>
                         )
                       })
             }
@@ -400,6 +403,7 @@ visiblechange(){
     this.setState({
         visible:status
     })
+    console.log([this.props.centered['lat'],this.props.centered['lng']], this.props.lat, this.props.lng)
 
 }
 
@@ -416,14 +420,27 @@ visiblechangeclose() {
 render()
 {
   const ct = "wait for respond";
+  var pos = 'top left'
+  var mid = [this.props.centered['lat'],this.props.centered['lng']]
+
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom right'
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom left'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top right'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top left'
+
 return (
   <Popup
 
-    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512953456/pin_sq-01_j3pr9q.svg" onClick = {this.visiblechange} style={{transform: 'translate(-50%, -100%)'}}></img>}
 
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
+    position = {pos}
   >
      <Popup.Content>
 
@@ -468,14 +485,26 @@ visiblechangeclose() {
 render()
 {
   const ct = "wait for respond";
+  var pos = 'top left'
+  var mid = [this.props.centered['lat'],this.props.centered['lng']]
+
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom right'
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom left'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top right'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top left'
 return (
   <Popup
 
-    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" onClick = {this.visiblechange}></img>}
+    trigger={<img  className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1512971894/pin_sq_SkB-01_gd8pls.svg" onClick = {this.visiblechange} style={{transform: 'translate(-50%, -100%)'}}></img>}
 
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
+    position = {pos}
 
   >
      <Popup.Content>
@@ -521,14 +550,26 @@ visiblechangeclose() {
 render()
 {
   const ct = "wait for respond";
+  var pos = 'top left'
+  var mid = [this.props.centered['lat'],this.props.centered['lng']]
+
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom right'
+  if (this.props.lat > mid[0] && this.props.lng > mid[1])
+        pos = 'bottom left'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top right'
+  if (this.props.lat < mid[0] && this.props.lng < mid[1])
+        pos = 'top left'
 return (
   <Popup
 
-    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513058520/pin_sq_BrR-01_zelnta.svg" onClick = {this.visiblechange}></img>}
+    trigger={<img className="mapmarker" src="http://res.cloudinary.com/dyghmcqvx/image/upload/v1513058520/pin_sq_BrR-01_zelnta.svg" onClick = {this.visiblechange} style={{transform: 'translate(-50%, -100%)'}}></img>}
 
     on={['hover']}
     hoverable
     onClose = {this.visiblechangeclose}
+    position = {pos}
 
   >
      <Popup.Content>

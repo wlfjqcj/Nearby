@@ -45,7 +45,8 @@ class Submenu extends Component {
       helperinputvalue:null,
       eventinputvalue:null,
       chatinputvalue:null,
-      eventdescriptioninputvalue:'enter your description'
+      eventdescriptioninputvalue:'',
+      helperdescriptioninputvalue:''
     };
     this.buildChat = this.buildChat.bind(this);
     this.closeChat = this.closeChat.bind(this);
@@ -290,6 +291,7 @@ createHelper() {
     this.setState({ showHelper: false });
     this.props.transferMsg((obj) => {})
     // this.props.addstate(this.state.location)
+    console.log(JSON.stringify({name:this.state.helperinputvalue,description:this.state.helperdescriptioninputvalue,date:this.state.helperdate.toString()}))
     axios.post(posturl,{
         text:JSON.stringify({name:this.state.helperinputvalue,description:this.state.helperdescriptioninputvalue,date:this.state.helperdate.toString()}),
         type:'helper',
@@ -306,7 +308,11 @@ createHelper() {
 }
 
 
-
+updateHelperDescriptionInputValue(e) {
+    this.setState({
+        helperdescriptioninputvalue: e.target.value
+    })
+}
 updateHelperInputValue(e) {
     this.setState({
         helperinputvalue: e.target.value
@@ -379,7 +385,7 @@ logout() {
         marginRight           : '-50%',
         transform             : 'translate(-50%, -50%)',
         padding               : '10px'
-        
+
       }
     };
 
@@ -408,7 +414,7 @@ logout() {
            <Label pointing>Your Text</Label>
            </Grid.Column>
            </Grid>
-           
+
             <br />
             <br />
              <Button onClick={() => this.createChat()} color="black">Create New Chat</Button>
@@ -501,7 +507,7 @@ logout() {
                </Grid>
                <Grid columns={5} >
                <Grid.Column width={5}>
-               <Input type='text' style = {{ height: 90, width : 327}} placeholder="Describe what kind of help you would like" />
+               <Input type='text' style = {{ height: 90, width : 327}} value={this.state.helperdescriptioninputvalue} placeholder="Describe what kind of help you would like" onChange= {(evt) => this.updateHelperDescriptionInputValue(evt)}/>
                <Label pointing>Your Description</Label>
                </Grid.Column>
                </Grid>
