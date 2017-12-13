@@ -353,8 +353,7 @@ render() {
 	  <div>
 	  			{this.state.loading?(
     <div className = "kuang">
-		<Button className="close"  floated='right' onClick = {this.deletepost}>x</Button>
-		<br />
+		<button className="close" onClick = {this.deletepost}>Delete</button>
 		<br />
     <div id="chattitle">
 		<div>
