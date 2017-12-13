@@ -19,7 +19,7 @@
 }
 
 .dropmenu{
-    width: 200px;
+    width: 96px;
 }
 #dropdownmenu{
     width:200px;
@@ -27,7 +27,7 @@
 #dropdownmenu:hover {
     background-color: #63a4ff;
 
-    
+
 }
 
 .ui.button.dropdownbutton:hover{
@@ -54,7 +54,7 @@
 
 .subfilter{
     width:95px;
-    height:40px; 
+    height:40px;
 }
 
 #subfiltermenu{
@@ -62,7 +62,7 @@
     width: 95px;
 }
 #subfilter:hover {
-    background-color: #63a4ff;   
+    background-color: #63a4ff;
 }
 
 .ui.right.floated.button.close{
