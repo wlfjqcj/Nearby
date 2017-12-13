@@ -319,6 +319,7 @@ class SimpleMap extends Component {
         <GoogleMapReact style = {{ height: '100px' , width : '100px'}} onClick={this.state.clickfunc} onChange={(e)=>this.handleChange(e)}
           center={this.state.mapcenter}
           zoom={this.state.zoommap}
+          bootstrapURLKeys={{key: 'AIzaSyAmOmVErCJ5Ja1elZXG5IHd0scSaF_7mhM'}}
         >
             {
                 this.state.chatobjects.map((v, index) => {

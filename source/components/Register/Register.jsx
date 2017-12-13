@@ -100,6 +100,7 @@ class Register extends Component {
             <GoogleMapReact style = {{ height: '100px' , width : '100px',opacity: 0.3}}  onChange={(e)=>this.handleChange(e)}
               center={this.state.mapcenter}
               zoom={this.state.zoommap}
+              bootstrapURLKeys={{key: 'AIzaSyAmOmVErCJ5Ja1elZXG5IHd0scSaF_7mhM'}}
             >
             <div lat = {this.state.mapcenter[0]} lng = {this.state.mapcenter[1]}>
 
