@@ -146,7 +146,7 @@ constructor() {
 				content_add: "",
 				loading:true
 			});
-			axios.post(posturl  +  this.props.helperid, {
+			axios.post(posturl  +  this.props.chatid, {
     			text:currentcontent
   			},{withCredentials:true})
 			.then(function (response) {
